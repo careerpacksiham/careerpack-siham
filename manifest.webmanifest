@@ -1,0 +1,9 @@
+{
+  "name": "CareerPack Siham",
+  "short_name": "CareerPack",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fbf8f6",
+  "theme_color": "#765446",
+  "icons": []
+}
