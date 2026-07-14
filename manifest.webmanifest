@@ -1,9 +1,11 @@
 {
   "name": "CareerPack Siham",
   "short_name": "CareerPack",
+  "description": "Assistant personnel de candidature de Siham Felchou",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
-  "background_color": "#fbf8f6",
+  "background_color": "#fbf7f2",
   "theme_color": "#765446",
   "icons": []
 }
