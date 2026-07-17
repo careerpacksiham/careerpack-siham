@@ -1,21 +1,17 @@
-# CareerPack Siham — V1.1 Immersive
+# CareerPack Siham V2.0 — CareerBrain & AI Generation
 
-Assistant personnel de candidature, mobile-first et installable en PWA.
+PWA mobile-first de candidature professionnelle : analyse d'offre, score de compatibilité, sélection sectorielle, génération ciblée du CV, de la lettre et du message d'accompagnement.
 
-## Test local
+## Fonctions V2
 
-```bash
-python3 -m http.server 8080
-```
+- Analyse d'offre par Gemini via Google Apps Script ;
+- CareerBrain local automatique si l'IA est absente ou indisponible ;
+- score de compatibilité expliqué ;
+- recommandation du meilleur positionnement ;
+- CV et lettre adaptés sans invention ;
+- aperçu A4 et enregistrement PDF par impression ;
+- partage du message ;
+- bibliothèque des 4 dossiers premium ;
+- PWA hors ligne et mise à jour du cache.
 
-Ouvrir `http://localhost:8080`.
-
-## Mise à jour locale
-
-Copier le contenu du pack à la racine du dépôt, puis :
-
-```bash
-git add .
-git commit -m "CareerPack V1.1 Immersive"
-git push origin main
-```
+Voir `docs/INSTALLATION-V2.md`.

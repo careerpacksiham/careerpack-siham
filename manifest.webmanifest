@@ -1,7 +1,7 @@
 {
   "name": "CareerPack Siham",
   "short_name": "CareerPack",
-  "description": "Assistant personnel de candidature de Siham Felchou",
+  "description": "Assistant intelligent de candidature de Siham Felchou",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

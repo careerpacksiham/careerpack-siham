@@ -4,168 +4,102 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#765446">
-  <meta name="description" content="Assistant personnel de candidature de Siham Felchou">
+  <meta name="description" content="CareerPack Siham — assistant intelligent de candidature">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/style.css">
-  <title>CareerPack Siham</title>
+  <title>CareerPack Siham V2.1 — Dossier de candidature vivant</title>
 </head>
 <body>
-  <div class="ambient ambient-one"></div>
-  <div class="ambient ambient-two"></div>
-
+  <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
   <header class="topbar">
-    <div class="identity">
-      <span class="brand-mark">C</span>
-      <div>
-        <strong>CareerPack</strong>
-        <span>Assistant personnel de candidature</span>
-      </div>
-    </div>
-    <button id="installBtn" class="install-btn" hidden>Installer</button>
+    <div class="identity"><span class="brand-mark">C</span><div><strong>CareerPack</strong><span>Assistant intelligent de candidature</span></div></div>
+    <div class="top-actions"><span id="aiBadge" class="ai-badge local">Mode autonome</span><button id="installBtn" class="install-btn" hidden>Installer</button></div>
   </header>
 
   <main class="shell">
     <section class="presence glass-panel">
-      <div class="profile">
-        <img src="assets/siham.jpg" alt="Siham Felchou">
-        <div>
-          <p class="eyebrow" id="greeting">Bonjour Siham</p>
-          <h1>Préparons votre prochaine candidature.</h1>
-          <p class="lead">Je vous guide étape par étape et sélectionne le dossier le plus adapté.</p>
-        </div>
-      </div>
-
-      <div class="live-panel">
-        <div>
-          <span class="city">MARRAKECH</span>
-          <strong id="clock">--:--:--</strong>
-          <span id="dateText">--</span>
-        </div>
-        <div class="assistant-status">
-          <span class="pulse"></span>
-          <div>
-            <strong>Assistant disponible</strong>
-            <span>Documents prêts · Synchronisation active</span>
-          </div>
-        </div>
-      </div>
+      <div class="profile"><img src="assets/siham.jpg" alt="Siham Felchou"><div>
+        <p class="eyebrow" id="greeting">Bonjour Siham</p>
+        <h1>Préparons votre prochaine candidature.</h1>
+        <p class="lead important-copy">Je vous guide étape par étape et sélectionne le dossier le plus adapté.</p>
+        <div class="inline-status"><span class="pulse"></span><div><strong>Assistant disponible</strong><span>Dossiers vivants · Sauvegarde locale active</span></div></div>
+      </div></div>
+      <div class="clock-card"><span class="city">MARRAKECH</span><strong id="clock">--:--:--</strong><span id="dateText">--</span></div>
     </section>
 
     <section class="start-panel">
-      <div class="section-heading">
-        <span>01</span>
-        <div>
-          <h2>Que souhaitez-vous faire ?</h2>
-          <p>Une seule décision à la fois. CareerPack s'occupe du reste.</p>
-        </div>
-      </div>
-
+      <div class="section-heading"><span>01</span><div><h2>Que souhaitez-vous faire ?</h2><p class="important-copy">Une seule décision à la fois. CareerPack s’occupe du reste.</p></div></div>
       <div class="primary-actions">
-        <button class="action-card action-main" data-flow="apply">
-          <span class="action-icon">✦</span>
-          <span>
-            <strong>Préparer une candidature</strong>
-            <small>Choisir le secteur, l'entreprise et le poste</small>
-          </span>
-          <b>→</b>
-        </button>
-        <button class="action-card" data-flow="offer">
-          <span class="action-icon">⌕</span>
-          <span>
-            <strong>J'ai trouvé une offre</strong>
-            <small>Préparer le dossier adapté à cette opportunité</small>
-          </span>
-          <b>→</b>
-        </button>
-        <button class="action-card" data-flow="library">
-          <span class="action-icon">▣</span>
-          <span>
-            <strong>Consulter mes dossiers</strong>
-            <small>Voir les CV et lettres déjà disponibles</small>
-          </span>
-          <b>→</b>
-        </button>
+        <button class="action-card action-main" data-flow="offer"><span class="action-icon">⌕</span><span><strong>Analyser une offre</strong><small>Collez l’annonce : CareerBrain prépare le dossier complet</small></span><b>→</b></button>
+        <button class="action-card" data-flow="apply"><span class="action-icon">✦</span><span><strong>Préparer sans annonce</strong><small>Entreprise, poste et secteur suffisent</small></span><b>→</b></button>
+        <button class="action-card" data-flow="library"><span class="action-icon">▣</span><span><strong>Consulter mes dossiers</strong><small>CV et lettres premium prêts à envoyer</small></span><b>→</b></button>
       </div>
     </section>
 
-    <section class="trust-strip">
-      <div><strong>4</strong><span>CV spécialisés</span></div>
-      <div><strong>4</strong><span>Lettres adaptées</span></div>
-      <div><strong>1</strong><span>Parcours guidé</span></div>
-    </section>
+    <section class="trust-strip"><div><strong>4</strong><span>CV spécialisés</span></div><div><strong>IA</strong><span>avec fallback local</span></div><div><strong>A4</strong><span>PDF imprimable</span></div></section>
   </main>
 
-  <dialog id="wizard">
-    <form method="dialog" class="wizard-card">
-      <button class="close" value="cancel" aria-label="Fermer">×</button>
+  <dialog id="wizard"><form method="dialog" class="wizard-card">
+    <button class="close" value="cancel" aria-label="Fermer">×</button>
+    <div class="wizard-progress"><span class="progress-dot active" data-dot="1"></span><span class="progress-line"></span><span class="progress-dot" data-dot="2"></span><span class="progress-line"></span><span class="progress-dot" data-dot="3"></span><span class="progress-line"></span><span class="progress-dot" data-dot="4"></span></div>
 
-      <div class="wizard-progress">
-        <span class="progress-dot active" data-dot="1"></span>
-        <span class="progress-line"></span>
-        <span class="progress-dot" data-dot="2"></span>
-        <span class="progress-line"></span>
-        <span class="progress-dot" data-dot="3"></span>
+    <section class="wizard-step" data-step="1">
+      <p class="eyebrow">Étape 1 sur 4</p><h2>Quelle opportunité vous intéresse ?</h2>
+      <p class="step-intro important-copy">Plus l’annonce est complète, plus l’adaptation sera précise.</p>
+      <label>Texte de l’offre d’emploi <span>(facultatif en mode rapide)</span><textarea id="offerText" rows="9" placeholder="Collez ici l’annonce, les missions, les compétences et le profil recherché..."></textarea></label>
+      <div class="wizard-nav"><button type="button" class="secondary" id="skipOffer">Mode rapide</button><button type="button" class="primary" id="analyzeOffer">Analyser l’offre</button></div>
+    </section>
+
+    <section class="wizard-step" data-step="2" hidden>
+      <p class="eyebrow">Étape 2 sur 4</p><h2>Vérifions l’opportunité.</h2>
+      <div id="analysisLoading" class="thinking" hidden><span class="loader"></span><div><strong>CareerBrain analyse l’annonce…</strong><small>Poste, responsabilités, mots-clés, niveau et attentes.</small></div></div>
+      <div id="analysisPanel" class="analysis-panel">
+        <div class="score-ring"><strong id="scoreValue">--</strong><span>compatibilité</span></div>
+        <div><p id="analysisSummary" class="important-copy"></p><div id="keywordChips" class="chips"></div></div>
       </div>
+      <label>Nom de l’entreprise<input id="company" autocomplete="organization" placeholder="Ex. Royal Mansour Marrakech"></label>
+      <label>Poste visé<input id="job" autocomplete="off" placeholder="Ex. Directrice des opérations"></label>
+      <label>Nom du recruteur <span>(facultatif)</span><input id="recruiter" autocomplete="name" placeholder="Ex. Madame Dupont"></label>
+      <div class="wizard-nav"><button type="button" class="secondary" id="backOffer">Retour</button><button type="button" class="primary" id="chooseSector">Continuer</button></div>
+    </section>
 
-      <section class="wizard-step" data-step="1">
-        <p class="eyebrow">Étape 1 sur 3</p>
-        <h2>Dans quel univers souhaitez-vous postuler ?</h2>
-        <p class="step-intro">Je sélectionnerai automatiquement le CV et la lettre les plus pertinents.</p>
-        <div id="sectorChoices" class="sector-choices"></div>
-      </section>
+    <section class="wizard-step" data-step="3" hidden>
+      <p class="eyebrow">Étape 3 sur 4</p><h2>Je sélectionne le meilleur positionnement.</h2>
+      <p id="sectorRecommendation" class="assistant-hint important-copy"></p><div id="sectorChoices" class="sector-choices"></div>
+    </section>
 
-      <section class="wizard-step" data-step="2" hidden>
-        <p class="eyebrow">Étape 2 sur 3</p>
-        <h2>Parlez-moi de l'opportunité.</h2>
-        <p id="assistantHint" class="assistant-hint"></p>
-        <label>Nom de l'entreprise
-          <input id="company" autocomplete="organization" placeholder="Ex. Royal Mansour Marrakech">
-        </label>
-        <label>Poste visé
-          <input id="job" autocomplete="off" placeholder="Ex. Responsable des opérations">
-        </label>
-        <label>Nom du recruteur <span>(facultatif)</span>
-          <input id="recruiter" autocomplete="name" placeholder="Ex. Madame Dupont">
-        </label>
-        <div class="wizard-nav">
-          <button type="button" class="secondary" id="backToSectors">Retour</button>
-          <button type="button" class="primary" id="prepare">Préparer</button>
+    <section class="wizard-step" data-step="4" hidden>
+      <p class="eyebrow">Étape 4 sur 4</p><h2>Votre candidature personnalisée est prête.</h2>
+      <div id="generationLoading" class="thinking" hidden><span class="loader"></span><div><strong>Rédaction et contrôle qualité…</strong><small>Résumé, compétences, lettre et message d’accompagnement.</small></div></div>
+      <div id="resultContent">
+        <div class="result-summary"><span class="pulse"></span><div><p id="analysisText"></p><small id="saveState">Non enregistrée</small></div></div>
+        <details class="brain-explanation" open>
+          <summary>Pourquoi CareerBrain propose ce dossier ?</summary>
+          <div id="brainExplanation"></div>
+        </details>
+        <div class="tabs"><button type="button" class="tab active" data-tab="cv">CV adapté</button><button type="button" class="tab" data-tab="letter">Lettre</button><button type="button" class="tab" data-tab="message">Message</button></div>
+        <div class="tab-panel active" data-panel="cv">
+          <p class="editor-help">Vous pouvez corriger directement le résumé et les compétences avant l’export.</p>
+          <label>Résumé exécutif<textarea id="cvSummaryEditor" rows="6"></textarea></label>
+          <label>Compétences mises en avant<textarea id="cvSkillsEditor" rows="4"></textarea></label>
+          <div id="cvPreview" class="document-preview"></div>
         </div>
-      </section>
-
-      <section class="wizard-step" data-step="3" hidden>
-        <p class="eyebrow">Étape 3 sur 3</p>
-        <h2>Votre candidature est prête.</h2>
-
-        <div class="result-summary">
-          <span class="pulse"></span>
-          <p id="analysisText"></p>
+        <div class="tab-panel" data-panel="letter">
+          <p class="editor-help">La lettre reste entièrement modifiable. Chaque modification est sauvegardée localement.</p>
+          <textarea id="letterEditor" class="large-editor" rows="16"></textarea>
+          <div id="letterPreview" class="document-preview letter-preview"></div>
         </div>
-
-        <div class="message-box">
-          <span>Message d'accompagnement</span>
-          <p id="message"></p>
+        <div class="tab-panel" data-panel="message">
+          <p class="editor-help">Adaptez le ton avant de copier ou de partager.</p>
+          <textarea id="messageEditor" class="large-editor" rows="9"></textarea>
+          <div class="message-box"><p id="message"></p></div>
         </div>
+        <div class="result-actions"><button type="button" id="saveApplication">Enregistrer le dossier</button><button type="button" id="printCv">Enregistrer le CV en PDF</button><button type="button" id="printLetter">Enregistrer la lettre en PDF</button><button type="button" id="copyLetter">Copier la lettre</button><button type="button" id="shareText">Partager le message</button><button type="button" class="secondary" id="restart">Nouvelle candidature</button></div>
+      </div>
+    </section>
+  </form></dialog>
 
-        <div class="result-actions">
-          <a id="viewCv" target="_blank" rel="noopener">Voir le CV</a>
-          <a id="viewLetter" target="_blank" rel="noopener">Voir la lettre</a>
-          <button type="button" id="shareText">Partager le message</button>
-          <button type="button" class="secondary" id="restart">Nouvelle candidature</button>
-        </div>
-      </section>
-    </form>
-  </dialog>
+  <dialog id="libraryDialog"><form method="dialog" class="wizard-card library-card"><button class="close" value="cancel" aria-label="Fermer">×</button><p class="eyebrow">Bibliothèque CareerPack</p><h2>Vos dossiers professionnels</h2><div id="savedApplications" class="saved-applications"></div><h3 class="library-subtitle">Modèles premium</h3><div id="libraryList" class="library-list"></div></form></dialog>
 
-  <dialog id="libraryDialog">
-    <form method="dialog" class="wizard-card library-card">
-      <button class="close" value="cancel" aria-label="Fermer">×</button>
-      <p class="eyebrow">Bibliothèque CareerPack</p>
-      <h2>Vos dossiers professionnels</h2>
-      <div id="libraryList" class="library-list"></div>
-    </form>
-  </dialog>
-
-  <script src="assets/app.js"></script>
-</body>
-</html>
+  <script src="config.js"></script><script src="assets/profile.js"></script><script src="assets/app.js"></script>
+</body></html>
