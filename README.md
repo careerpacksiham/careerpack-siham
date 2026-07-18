@@ -15,3 +15,7 @@ PWA mobile-first de candidature professionnelle : analyse d'offre, score de comp
 - PWA hors ligne et mise à jour du cache.
 
 Voir `docs/INSTALLATION-V2.md`.
+
+## V2.1.1 — Correctif responsive prioritaire
+
+L'horloge est désormais supprimée sur mobile et tablette. Le bloc d'accueil est compact et les actions principales apparaissent immédiatement, en portrait comme en paysage.
