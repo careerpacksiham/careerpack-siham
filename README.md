@@ -1,4 +1,4 @@
-# CareerPack Siham V2.5.4 — Édition finale figée
+# CareerPack Siham V2.5.5 — Édition finale figée
 
 PWA de préparation de candidatures personnalisée pour Siham Felchou.
 
@@ -30,7 +30,7 @@ Cette version clôture le cycle fonctionnel de l’édition Siham. Elle regroupe
 5. Si Gemini est utilisé, remplacer `backend/google-apps-script/Code.gs` dans le projet Google Apps Script, puis créer une nouvelle version du déploiement Web.
 6. Commit et push sur la branche `main`.
 7. Attendre la fin du déploiement GitHub Pages.
-8. Fermer complètement la PWA puis la rouvrir pour charger le cache V2.5.4.
+8. Fermer complètement la PWA puis la rouvrir pour charger le cache V2.5.5.
 
 Aucune clé IA ne doit être enregistrée dans GitHub.
 

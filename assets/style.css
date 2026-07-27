@@ -385,3 +385,12 @@
     width:52px;height:52px;min-width:52px;min-height:52px;max-width:52px;max-height:52px;flex-basis:52px;
   }
 }
+
+
+/* CareerPack V2.5.5 — horloge calée à l’extrémité droite du bandeau.
+   L’ordre visuel est désormais : mode, profil, installation éventuelle, horloge. */
+.topbar .top-actions{margin-left:auto;justify-content:flex-end}
+.topbar .top-clock{order:99;flex:0 0 auto;margin-left:0!important;margin-right:0!important}
+#aiBadge{order:1}
+#profileBtn{order:2}
+#installBtn{order:3}
