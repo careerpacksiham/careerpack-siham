@@ -1,4 +1,4 @@
-# CareerPack Siham V2.5.3 — Édition finale figée
+# CareerPack Siham V2.5.4 — Édition finale figée
 
 PWA de préparation de candidatures personnalisée pour Siham Felchou.
 
@@ -30,7 +30,7 @@ Cette version clôture le cycle fonctionnel de l’édition Siham. Elle regroupe
 5. Si Gemini est utilisé, remplacer `backend/google-apps-script/Code.gs` dans le projet Google Apps Script, puis créer une nouvelle version du déploiement Web.
 6. Commit et push sur la branche `main`.
 7. Attendre la fin du déploiement GitHub Pages.
-8. Fermer complètement la PWA puis la rouvrir pour charger le cache V2.5.3.
+8. Fermer complètement la PWA puis la rouvrir pour charger le cache V2.5.4.
 
 Aucune clé IA ne doit être enregistrée dans GitHub.
 
@@ -42,13 +42,16 @@ Une mise à jour normale des fichiers GitHub Pages et du cache PWA ne supprime p
 
 ## Documentation
 
-- `CHANGELOG-V2.5.3.md` : correctif final de positionnement de l’horloge ;
-- `TESTS-V2.5.3.md` : validations du bandeau et des tailles d’écran ;
+- `CHANGELOG-V2.5.4.md` : correctif final de positionnement de l’horloge ;
+- `TESTS-V2.5.4.md` : validations du bandeau et des tailles d’écran ;
 - `CHANGELOG-V2.5.2.md` et `TESTS-V2.5.2.md` : consolidation fonctionnelle précédente ;
 - `EDITION-FIGEE.md` : règles de maintenance après clôture ;
-- `docs/INSTALLATION-V2.5.3.md` : procédure de déploiement détaillée.
+- `docs/INSTALLATION-V2.5.4.md` : procédure de déploiement détaillée.
 
 
-## Correctif V2.5.3
+## Correctif V2.5.4
 
 L’horloge est intégrée au bandeau supérieur, juste à gauche de « Mon profil ». Le bloc de bienvenue est libéré de toute hauteur ou colonne réservée à l’heure.
+
+## V2.5.4 — Correctif photo
+La photo d'accueil conserve désormais strictement son ratio carré sur tous les formats d'écran. Aucun étirement horizontal n'est possible.

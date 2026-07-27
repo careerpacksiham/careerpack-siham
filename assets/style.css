@@ -349,3 +349,39 @@
 .presence .profile{display:flex;align-items:center;min-width:0}
 .presence .profile>div{min-width:0}
 @media(max-width:580px){.presence .profile{align-items:flex-start}}
+
+/* CareerPack V2.5.4 — verrouillage du ratio de la photo d'accueil
+   La largeur et la hauteur restent toujours identiques afin d'empêcher toute
+   déformation horizontale héritée des anciens breakpoints responsive. */
+.presence .profile img{
+  aspect-ratio:1 / 1;
+  width:clamp(54px,7vw,76px);
+  height:clamp(54px,7vw,76px);
+  min-width:clamp(54px,7vw,76px);
+  min-height:clamp(54px,7vw,76px);
+  max-width:clamp(54px,7vw,76px);
+  max-height:clamp(54px,7vw,76px);
+  flex:0 0 clamp(54px,7vw,76px);
+  object-fit:cover;
+  object-position:center 22%;
+}
+@media(max-width:800px){
+  .presence .profile img{
+    width:52px;height:52px;min-width:52px;min-height:52px;max-width:52px;max-height:52px;flex-basis:52px;
+  }
+}
+@media(max-width:580px){
+  .presence .profile img{
+    width:64px;height:64px;min-width:64px;min-height:64px;max-width:64px;max-height:64px;flex-basis:64px;
+  }
+}
+@media(max-width:380px){
+  .presence .profile img{
+    width:58px;height:58px;min-width:58px;min-height:58px;max-width:58px;max-height:58px;flex-basis:58px;
+  }
+}
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .presence .profile img{
+    width:52px;height:52px;min-width:52px;min-height:52px;max-width:52px;max-height:52px;flex-basis:52px;
+  }
+}

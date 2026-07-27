@@ -1,7 +1,7 @@
 {
-  "name": "CareerPack Siham V2.5.3 — Horloge intégrée au bandeau",
-  "short_name": "CareerPack V2.5.3",
-  "description": "Assistant intelligent de candidature de Siham Felchou — édition finale figée, correctif horloge",
+  "name": "CareerPack Siham V2.5.4 — Horloge bandeau + photo proportionnelle",
+  "short_name": "CareerPack V2.5.4",
+  "description": "Assistant intelligent de candidature de Siham Felchou — édition finale figée, correctif horloge et ratio photo",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
