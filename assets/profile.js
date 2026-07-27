@@ -1,6 +1,7 @@
 window.SIHAM_PROFILE = {
   name: "Siham Felchou",
   title: "Direction • Management • Développement commercial",
+  photo: {src:"assets/siham.jpg", x:50, y:23, zoom:100},
   phone: "06 09 33 81 99",
   email: "Sihamfelchou@gmail.com",
   address: ["25, rue Sourya", "Appartement n°8", "40000 Marrakech – Maroc"],

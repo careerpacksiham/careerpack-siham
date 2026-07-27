@@ -7,13 +7,13 @@
   <meta name="description" content="CareerPack Siham — assistant intelligent de candidature">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/style.css">
-  <title>CareerPack Siham V2.4 — Mobile utilisable</title>
+  <title>CareerPack Siham V2.5.2 — Édition finale figée</title>
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
   <header class="topbar">
     <div class="identity"><span class="brand-mark">C</span><div><strong>CareerPack</strong><span>Assistant intelligent de candidature</span></div></div>
-    <div class="top-actions"><span id="aiBadge" class="ai-badge local">Mode autonome</span><button id="installBtn" class="install-btn" hidden>Installer</button></div>
+    <div class="top-actions"><span id="aiBadge" class="ai-badge local">Mode autonome</span><button id="profileBtn" class="install-btn" type="button">Mon profil</button><button id="installBtn" class="install-btn" hidden>Installer</button></div>
   </header>
 
   <main class="shell">
@@ -57,7 +57,7 @@
         <div class="score-ring"><strong id="scoreValue">--</strong><span>compatibilité</span></div>
         <div><p id="analysisSummary" class="important-copy"></p><div id="keywordChips" class="chips"></div></div>
       </div>
-      <label>Nom de l’entreprise<input id="company" autocomplete="organization" placeholder="Ex. Royal Mansour Marrakech"></label>
+      <label>Nom de l’entreprise<input id="company" autocomplete="organization" placeholder="Ex. Royal Mansour Marrakech"><small id="companyDetectionNote" class="field-note">Vérifiez toujours le nom détecté avant de continuer.</small></label>
       <label>Poste visé<input id="job" autocomplete="off" placeholder="Ex. Directrice des opérations"></label>
       <label>Nom du recruteur <span>(facultatif)</span><input id="recruiter" autocomplete="name" placeholder="Ex. Madame Dupont"></label>
       <div class="wizard-nav"><button type="button" class="secondary" id="backOffer">Retour</button><button type="button" class="primary" id="chooseSector">Continuer</button></div>
@@ -82,7 +82,7 @@
           <div class="cv-workspace">
             <section class="cv-editor-panel">
               <div class="editor-toolbar">
-                <div><strong>Contenu du CV</strong><small>L’IA prépare. Siham valide chaque élément.</small></div>
+                <div><strong>Contenu du CV</strong><small>L’IA prépare. Siham valide chaque élément.</small><small id="cvChangeSummary" class="change-summary">Aucune modification manuelle</small></div>
                 <span id="cvFitStatus" class="fit-status">Contrôle A4…</span>
               </div>
               <section class="cv-quality-panel" aria-live="polite">
@@ -90,6 +90,12 @@
                 <div id="cvAuditList" class="cv-audit-list"></div>
                 <div class="ats-coverage"><strong>Mots-clés de l’offre</strong><div id="atsKeywordCoverage" class="ats-chips"></div></div>
               </section>
+              <div class="cv-layout-choice" role="group" aria-label="Nombre de pages du CV">
+                <span>Format du CV</span>
+                <label><input type="radio" name="cvPageMode" value="auto" checked> Automatique</label>
+                <label><input type="radio" name="cvPageMode" value="one"> 1 page</label>
+                <label><input type="radio" name="cvPageMode" value="two"> 2 pages</label>
+              </div>
               <label>Titre professionnel ciblé<input id="cvTitleEditor" type="text" maxlength="90"></label>
               <label>Résumé exécutif<textarea id="cvSummaryEditor" rows="5"></textarea></label>
               <label>Compétences mises en avant<textarea id="cvSkillsEditor" rows="5" placeholder="Une compétence par ligne"></textarea></label>
@@ -105,11 +111,12 @@
           </div>
         </div>
         <div class="tab-panel" data-panel="letter">
-          <p class="editor-help">La lettre reste entièrement modifiable. Chaque modification est sauvegardée localement.</p>
+          <div class="letter-toolbar"><p class="editor-help">La lettre reste entièrement modifiable. Chaque modification est sauvegardée localement.</p><span id="letterStatus" class="fit-status">Contrôle de la lettre…</span></div>
           <textarea id="letterEditor" class="large-editor" rows="16"></textarea>
           <div id="letterPreview" class="document-preview letter-preview"></div>
         </div>
         <div class="tab-panel" data-panel="message">
+          <div class="message-channel-row"><label>Canal<select id="messageChannel"><option value="email">Email</option><option value="linkedin">LinkedIn</option><option value="whatsapp">WhatsApp</option></select></label><button type="button" class="secondary" id="adaptMessage">Adapter au canal</button></div>
           <p class="editor-help">Adaptez le ton avant de copier ou de partager.</p>
           <textarea id="messageEditor" class="large-editor" rows="9"></textarea>
           <div class="message-box"><p id="message"></p></div>
@@ -122,7 +129,16 @@
     </section>
   </form></dialog>
 
-  <dialog id="libraryDialog"><form method="dialog" class="wizard-card library-card"><button class="close" value="cancel" aria-label="Fermer">×</button><p class="eyebrow">Bibliothèque CareerPack</p><h2>Vos dossiers professionnels</h2><div id="savedApplications" class="saved-applications"></div><h3 class="library-subtitle">Modèles premium</h3><div id="libraryList" class="library-list"></div></form></dialog>
+  <dialog id="libraryDialog"><form method="dialog" class="wizard-card library-card"><button class="close" value="cancel" aria-label="Fermer">×</button><p class="eyebrow">Bibliothèque CareerPack</p><h2>Vos dossiers professionnels</h2><div class="library-tools"><button type="button" id="exportBackup">Exporter une sauvegarde</button><label class="import-backup">Importer une sauvegarde<input id="importBackup" type="file" accept="application/json" hidden></label></div><div id="savedApplications" class="saved-applications"></div><h3 class="library-subtitle">Modèles premium</h3><div id="libraryList" class="library-list"></div></form></dialog>
+
+  <dialog id="profileDialog"><form method="dialog" class="wizard-card profile-card"><button class="close" value="cancel" aria-label="Fermer">×</button><p class="eyebrow">Source de vérité locale</p><h2>Profil professionnel de Siham</h2><p class="step-intro important-copy">Ces informations alimentent les prochaines candidatures. Elles restent enregistrées uniquement sur cet appareil.</p>
+    <div class="profile-edit-grid">
+      <section class="photo-editor"><div class="photo-preview-shell"><img id="profilePhotoPreview" src="assets/siham.jpg" alt="Aperçu de la photo"></div><label>Changer la photo<input id="profilePhotoFile" type="file" accept="image/*"></label><label>Zoom<input id="profilePhotoZoom" type="range" min="100" max="180" step="1" value="100"></label><label>Position horizontale<input id="profilePhotoX" type="range" min="0" max="100" step="1" value="50"></label><label>Position verticale<input id="profilePhotoY" type="range" min="0" max="100" step="1" value="23"></label></section>
+      <section class="profile-fields"><label>Nom complet<input id="profileName"></label><label>Titre de référence<input id="profileTitle"></label><div class="two-cols"><label>Téléphone<input id="profilePhone"></label><label>Email<input id="profileEmail" type="email"></label></div><label>Adresse<textarea id="profileAddress" rows="3" placeholder="Une ligne par ligne d’adresse"></textarea></label><label>Résumé de référence<textarea id="profileSummary" rows="6"></textarea></label><label>Compétences<textarea id="profileSkills" rows="6" placeholder="Une compétence par ligne"></textarea></label><label>Leadership<textarea id="profileLeadership" rows="5" placeholder="Un point par ligne"></textarea></label><label>Langues<textarea id="profileLanguages" rows="3" placeholder="Une langue par ligne"></textarea></label><label>Valeur ajoutée<textarea id="profileValue" rows="5" placeholder="Un point par ligne"></textarea></label><div class="two-cols"><label>Formation<input id="profileEducation"></label><label>Établissement<input id="profileEducationSchool"></label></div><label>Niveau / précision<input id="profileEducationLevel"></label></section>
+    </div>
+    <div class="profile-experience-head"><strong>Expériences professionnelles</strong><small>Les dates, entreprises et fonctions deviennent la référence utilisée par CareerBrain.</small></div><div id="profileExperienceEditor" class="experience-editor profile-experience-editor"></div>
+    <div class="wizard-nav"><button type="button" class="secondary" id="resetProfile">Restaurer le profil d’origine</button><button type="button" class="primary" id="saveProfile">Enregistrer le profil</button></div>
+  </form></dialog>
 
   <script src="config.js"></script><script src="assets/profile.js"></script><script src="assets/app.js"></script>
 </body></html>
