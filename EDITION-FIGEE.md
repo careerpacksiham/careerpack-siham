@@ -1,6 +1,8 @@
 # CareerPack Siham — Règle de gel
 
-La version V2.5.2 constitue l’édition finale figée de CareerPack Siham.
+La version V2.5.3 constitue l’édition finale figée de CareerPack Siham.
+
+La V2.5.3 intègre le dernier ajustement terrain autorisé : déplacement de l’horloge dans le bandeau supérieur, sans modification fonctionnelle.
 
 ## Autorisé après gel
 

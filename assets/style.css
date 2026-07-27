@@ -256,3 +256,96 @@
 }
 @media(max-width:760px){.profile-edit-grid{grid-template-columns:1fr}.photo-preview-shell{width:145px;height:145px}.two-cols{grid-template-columns:1fr}.profile-experience-head{align-items:flex-start;flex-direction:column}.profile-card{padding-left:14px;padding-right:14px}.top-actions{gap:6px}.top-actions .install-btn{padding:7px 9px;font-size:.68rem}}
 @media(max-width:420px){.profile img{transform-origin:center}.identity strong{font-size:.92rem}.topbar{gap:8px}.top-actions .install-btn{padding:7px 8px}.cv-layout-choice{grid-template-columns:1fr}.cv-layout-choice>span{grid-column:auto}}
+
+
+/* CareerPack V2.5.3 — Horloge intégrée au bandeau supérieur
+   Correction structurelle validée par la maquette utilisateur :
+   l'heure devient une information secondaire, immédiatement à gauche de « Mon profil ».
+   Le bloc de bienvenue ne réserve plus aucun espace à l'horloge. */
+.topbar{gap:14px;flex-wrap:nowrap}
+.top-actions{margin-left:auto;flex-wrap:nowrap;min-width:0}
+.topbar .top-clock{
+  display:grid;
+  grid-template-columns:minmax(0,auto) auto;
+  grid-template-areas:"city time" "date time";
+  align-items:center;
+  column-gap:10px;
+  row-gap:0;
+  width:auto;
+  min-width:154px;
+  max-width:174px;
+  min-height:42px;
+  margin:0!important;
+  padding:6px 11px;
+  border-radius:13px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.16),0 7px 18px rgba(67,40,32,.14)
+}
+.topbar .top-clock .city{grid-area:city;align-self:end;font-size:.52rem;line-height:1.1;letter-spacing:.15em;white-space:nowrap}
+.topbar .top-clock strong{grid-area:time;display:block;align-self:center;font-size:1.05rem;line-height:1;font-variant-numeric:tabular-nums;white-space:nowrap}
+.topbar .top-clock span:last-child{grid-area:date;align-self:start;font-size:.52rem;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:75px}
+.presence{grid-template-columns:minmax(0,1fr);height:auto;min-height:0}
+
+@media(max-width:800px){
+  .topbar{padding:11px 13px}
+  .top-actions{gap:7px}
+  .topbar .top-clock{min-width:142px;max-width:150px;min-height:38px;padding:5px 9px;border-radius:12px;column-gap:8px}
+  .topbar .top-clock strong{font-size:.96rem}
+  .presence{gap:0}
+}
+
+@media(max-width:580px){
+  .topbar{padding:9px 9px;gap:7px}
+  .identity{gap:0;min-width:0}
+  .identity .brand-mark,.identity div>span{display:none!important}
+  .identity strong{font-size:1rem;white-space:nowrap}
+  .top-actions{gap:5px}
+  .topbar .top-clock{
+    min-width:128px;
+    max-width:132px;
+    min-height:36px;
+    padding:5px 8px;
+    border-radius:11px;
+    column-gap:6px
+  }
+  .topbar .top-clock .city{font-size:.43rem;letter-spacing:.12em}
+  .topbar .top-clock strong{font-size:.9rem}
+  .topbar .top-clock span:last-child{font-size:.43rem;max-width:58px}
+  .top-actions .install-btn{padding:7px 7px;font-size:.67rem;white-space:nowrap}
+  .shell{padding:9px 8px 13px}
+  .presence{padding:14px 12px;border-radius:21px}
+  .profile{gap:12px;align-items:flex-start}
+  .profile img{width:64px;flex:0 0 64px;border-width:3px}
+  .profile h1{font-size:1.23rem;line-height:1.05}
+  .eyebrow{margin-bottom:4px;font-size:.64rem}
+  .lead{margin-top:6px;font-size:.86rem;line-height:1.35}
+  .inline-status{margin-top:7px;gap:8px}
+  .inline-status strong{font-size:.76rem}
+  .inline-status span:last-child{display:none}
+  .start-panel{margin-top:15px}
+}
+
+@media(max-width:380px){
+  .topbar{padding-left:7px;padding-right:7px;gap:5px}
+  .identity strong{font-size:.93rem}
+  .topbar .top-clock{min-width:120px;max-width:122px;padding-left:7px;padding-right:7px;column-gap:5px}
+  .topbar .top-clock strong{font-size:.86rem}
+  .top-actions .install-btn{padding-left:6px;padding-right:6px;font-size:.64rem}
+}
+
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  .topbar{padding:6px 10px}
+  .topbar .top-clock{min-width:136px;min-height:32px;padding:4px 8px}
+  .topbar .top-clock strong{font-size:.9rem}
+  .shell{padding-top:7px}
+  .presence{padding:9px 12px;border-radius:17px}
+  .profile img{width:52px;flex-basis:52px}
+  .profile h1{font-size:1.08rem}
+  .lead{font-size:.78rem;margin-top:3px}
+  .inline-status{margin-top:4px}
+  .start-panel{margin-top:8px}
+}
+
+/* V2.5.3 — neutralisation explicite de l'ancien display:contents du socle V2.1.5. */
+.presence .profile{display:flex;align-items:center;min-width:0}
+.presence .profile>div{min-width:0}
+@media(max-width:580px){.presence .profile{align-items:flex-start}}
