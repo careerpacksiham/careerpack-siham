@@ -1,21 +1,20 @@
-# CareerPack Siham V2.0 — CareerBrain & AI Generation
+# CareerPack Siham V2.3 — CV contrôlé
 
-PWA mobile-first de candidature professionnelle : analyse d'offre, score de compatibilité, sélection sectorielle, génération ciblée du CV, de la lettre et du message d'accompagnement.
+PWA de préparation de candidatures centrée sur la génération d’un CV professionnel, modifiable et exportable en A4.
 
-## Fonctions V2
+## V2.3
+- modèle Executive Signature aligné sur le CV étalon validé ;
+- analyse d’offre avec fallback local ;
+- adaptation contrôlée sans invention de dates, fonctions ou entreprises ;
+- édition du titre, du résumé, des compétences, de la valeur ajoutée et des descriptions ;
+- réorganisation et masquage des expériences ;
+- contrôle qualité et couverture ATS ;
+- ajustement automatique à une page ;
+- sauvegarde locale et reprise des candidatures ;
+- PWA hors ligne.
 
-- Analyse d'offre par Gemini via Google Apps Script ;
-- CareerBrain local automatique si l'IA est absente ou indisponible ;
-- score de compatibilité expliqué ;
-- recommandation du meilleur positionnement ;
-- CV et lettre adaptés sans invention ;
-- aperçu A4 et enregistrement PDF par impression ;
-- partage du message ;
-- bibliothèque des 4 dossiers premium ;
-- PWA hors ligne et mise à jour du cache.
+## Déploiement
+Remplacer entièrement les fichiers du dépôt par le contenu de cette archive, puis laisser GitHub Pages reconstruire le site. Après déploiement, fermer et rouvrir la PWA pour charger le cache V2.3.
 
-Voir `docs/INSTALLATION-V2.md`.
-
-## V2.1.1 — Correctif responsive prioritaire
-
-L'horloge est désormais supprimée sur mobile et tablette. Le bloc d'accueil est compact et les actions principales apparaissent immédiatement, en portrait comme en paysage.
+## IA
+Le mode autonome fonctionne sans configuration. Pour Gemini, renseigner `AI_ENDPOINT` dans `config.js` et redéployer le Google Apps Script fourni dans `backend/google-apps-script`.

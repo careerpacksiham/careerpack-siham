@@ -7,7 +7,7 @@
   <meta name="description" content="CareerPack Siham — assistant intelligent de candidature">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/style.css">
-  <title>CareerPack Siham V2.1.4 — Responsive Structurel</title>
+  <title>CareerPack Siham V2.3 — CV Contrôlé</title>
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -36,7 +36,7 @@
       </div>
     </section>
 
-    <section class="trust-strip"><div><strong>4</strong><span>CV spécialisés</span></div><div><strong>IA</strong><span>avec fallback local</span></div><div><strong>A4</strong><span>PDF imprimable</span></div></section>
+    <section class="trust-strip"><div><strong>CV</strong><span>modèle étalon validé</span></div><div><strong>IA</strong><span>avec fallback local</span></div><div><strong>A4</strong><span>export contrôlé</span></div></section>
   </main>
 
   <dialog id="wizard"><form method="dialog" class="wizard-card">
@@ -70,7 +70,7 @@
 
     <section class="wizard-step" data-step="4" hidden>
       <p class="eyebrow">Étape 4 sur 4</p><h2>Votre candidature personnalisée est prête.</h2>
-      <div id="generationLoading" class="thinking" hidden><span class="loader"></span><div><strong>Rédaction et contrôle qualité…</strong><small>Résumé, compétences, lettre et message d’accompagnement.</small></div></div>
+      <div id="generationLoading" class="thinking" hidden><span class="loader"></span><div><strong>Rédaction et contrôle qualité…</strong><small>Stratégie, mots-clés, ordre des expériences et contrôle A4.</small></div></div>
       <div id="resultContent">
         <div class="result-summary"><span class="pulse"></span><div><p id="analysisText"></p><small id="saveState">Non enregistrée</small></div></div>
         <details class="brain-explanation" open>
@@ -79,10 +79,30 @@
         </details>
         <div class="tabs"><button type="button" class="tab active" data-tab="cv">CV adapté</button><button type="button" class="tab" data-tab="letter">Lettre</button><button type="button" class="tab" data-tab="message">Message</button></div>
         <div class="tab-panel active" data-panel="cv">
-          <p class="editor-help">Vous pouvez corriger directement le résumé et les compétences avant l’export.</p>
-          <label>Résumé exécutif<textarea id="cvSummaryEditor" rows="6"></textarea></label>
-          <label>Compétences mises en avant<textarea id="cvSkillsEditor" rows="4"></textarea></label>
-          <div id="cvPreview" class="document-preview"></div>
+          <div class="cv-workspace">
+            <section class="cv-editor-panel">
+              <div class="editor-toolbar">
+                <div><strong>Contenu du CV</strong><small>L’IA prépare. Siham valide chaque élément.</small></div>
+                <span id="cvFitStatus" class="fit-status">Contrôle A4…</span>
+              </div>
+              <section class="cv-quality-panel" aria-live="polite">
+                <div class="quality-head"><div><strong>Contrôle avant export</strong><small>CareerPack vérifie la cohérence, les mots-clés et la tenue sur une page.</small></div><span id="cvQualityScore" class="quality-score">--/100</span></div>
+                <div id="cvAuditList" class="cv-audit-list"></div>
+                <div class="ats-coverage"><strong>Mots-clés de l’offre</strong><div id="atsKeywordCoverage" class="ats-chips"></div></div>
+              </section>
+              <label>Titre professionnel ciblé<input id="cvTitleEditor" type="text" maxlength="90"></label>
+              <label>Résumé exécutif<textarea id="cvSummaryEditor" rows="5"></textarea></label>
+              <label>Compétences mises en avant<textarea id="cvSkillsEditor" rows="5" placeholder="Une compétence par ligne"></textarea></label>
+              <label>Valeur ajoutée<textarea id="cvValueEditor" rows="4" placeholder="Un point par ligne"></textarea></label>
+              <div class="experience-editor-head"><strong>Expériences</strong><small>Masquez, réorganisez ou corrigez avant l’export.</small></div>
+              <div id="experienceEditor" class="experience-editor"></div>
+              <button type="button" class="secondary reset-cv" id="resetCvContent">Revenir à la proposition CareerBrain</button>
+            </section>
+            <section class="cv-preview-panel">
+              <div class="preview-label"><strong>Aperçu A4 réel</strong><small>Le PDF reprendra exactement cette composition.</small></div>
+              <div class="a4-stage"><iframe id="cvPreviewFrame" title="Aperçu du CV"></iframe></div>
+            </section>
+          </div>
         </div>
         <div class="tab-panel" data-panel="letter">
           <p class="editor-help">La lettre reste entièrement modifiable. Chaque modification est sauvegardée localement.</p>
