@@ -7,7 +7,7 @@
   <meta name="description" content="CareerPack Siham — assistant intelligent de candidature">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="stylesheet" href="assets/style.css">
-  <title>CareerPack Siham V2.3 — CV Contrôlé</title>
+  <title>CareerPack Siham V2.4 — Mobile utilisable</title>
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
@@ -99,8 +99,8 @@
               <button type="button" class="secondary reset-cv" id="resetCvContent">Revenir à la proposition CareerBrain</button>
             </section>
             <section class="cv-preview-panel">
-              <div class="preview-label"><strong>Aperçu A4 réel</strong><small>Le PDF reprendra exactement cette composition.</small></div>
-              <div class="a4-stage"><iframe id="cvPreviewFrame" title="Aperçu du CV"></iframe></div>
+              <div class="preview-label"><div><strong>Aperçu A4 réel</strong><small>Le PDF reprendra exactement cette composition.</small></div><button type="button" id="previewZoomToggle" class="preview-zoom-toggle" aria-pressed="false">Voir à 100 %</button></div>
+              <div class="a4-stage" id="a4Stage"><div class="a4-canvas" id="a4Canvas"><iframe id="cvPreviewFrame" title="Aperçu du CV"></iframe></div></div>
             </section>
           </div>
         </div>
@@ -114,7 +114,10 @@
           <textarea id="messageEditor" class="large-editor" rows="9"></textarea>
           <div class="message-box"><p id="message"></p></div>
         </div>
-        <div class="result-actions"><button type="button" id="saveApplication">Enregistrer le dossier</button><button type="button" id="printCv">Enregistrer le CV en PDF</button><button type="button" id="printLetter">Enregistrer la lettre en PDF</button><button type="button" id="copyLetter">Copier la lettre</button><button type="button" id="shareText">Partager le message</button><button type="button" class="secondary" id="restart">Nouvelle candidature</button></div>
+        <div class="result-actions-dock" id="resultActionsDock">
+          <button type="button" class="mobile-actions-toggle" id="mobileActionsToggle" aria-expanded="false" aria-controls="resultActions"><span>Actions du dossier</span><b aria-hidden="true">⌃</b></button>
+          <div class="result-actions" id="resultActions"><button type="button" id="saveApplication">Enregistrer le dossier</button><button type="button" id="printCv">Enregistrer le CV en PDF</button><button type="button" id="printLetter">Enregistrer la lettre en PDF</button><button type="button" id="copyLetter">Copier la lettre</button><button type="button" id="shareText">Partager le message</button><button type="button" class="secondary" id="restart">Nouvelle candidature</button></div>
+        </div>
       </div>
     </section>
   </form></dialog>

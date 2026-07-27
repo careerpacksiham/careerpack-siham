@@ -1,4 +1,4 @@
-// CareerPack V2.3 — CV contrôlé et fidèle au modèle étalon
+// CareerPack V2.4 — Mobile utilisable, aperçu A4 adaptatif et détection entreprise renforcée
 const CFG = window.CAREERPACK_CONFIG || {};
 const PROFILE = window.SIHAM_PROFILE;
 const $ = (s) => document.querySelector(s);
@@ -15,6 +15,8 @@ const packs = [
 let state = freshState();
 let deferredPrompt = null;
 let autosaveTimer = null;
+let previewFitToWidth = true;
+let previewResizeTimer = null;
 
 function freshState() {
   return {id:null, offer:'', analysis:null, company:'', job:'', recruiter:'', pack:null, generated:null, quick:false, createdAt:null, updatedAt:null};
@@ -43,6 +45,8 @@ setAiBadge();
 function setStep(n){
   $$('.wizard-step').forEach(s=>s.hidden=Number(s.dataset.step)!==n);
   $$('.progress-dot').forEach(d=>d.classList.toggle('active',Number(d.dataset.dot)<=n));
+  $('#wizard').classList.toggle('result-mode',n===4);
+  if(n!==4)closeActionsMenu();
 }
 
 function resetInputs(){
@@ -85,15 +89,83 @@ function localAnalyze(text){
 }
 function guessJob(text){
   const lines=String(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  return lines.find(l=>/direct|manager|responsable|chef|g[eé]rant|superviseur|coordinateur|operations|opérations/i.test(l)&&l.length<100)||'';
+  return lines.find(l=>/direct|manager|responsable|chef|g[eé]rant|superviseur|coordinateur|operations|opérations/i.test(l)&&l.length<100&&!isCompanyNoise(l))||'';
+}
+function cleanDetectedCompany(value=''){
+  return String(value||'').replace(/^(entreprise|soci[eé]t[eé]|employeur|company|organisation|organization)\s*[:\-–—]\s*/i,'').replace(/^[•·|\-–—\s]+|[•·|\-–—\s]+$/g,'').replace(/\s{2,}/g,' ').trim().slice(0,90);
+}
+function isCompanyNoise(value=''){
+  const v=normalizedToken(value);
+  if(!v)return true;
+  const exact=[
+    'temps plein','temps partiel','mi temps','full time','part time','cdi','cdd','stage','interim','freelance','contrat','contractuel',
+    'sur site','sur place','presentiel','hybride','teletravail','remote','journee','nuit','week end','horaire flexible',
+    'postuler','postuler maintenant','candidature simplifiee','enregistrer','offre d emploi','description du poste','profil recherche','a propos du poste',
+    'debutant accepte','niveau intermediaire','confirme','senior','junior'
+  ];
+  if(exact.includes(v))return true;
+  if(/^(temps (plein|partiel)|mi temps|full time|part time|cdi|cdd|stage|interim|freelance|sur site|sur place|presentiel|hybride|teletravail|remote)\b/.test(v))return true;
+  if(/^(il y a|publiee?|mise en ligne|plus de|moins de|candidats?|vues?|salaire|remuneration|avantages?|horaires?|type de contrat|niveau d experience)\b/.test(v))return true;
+  if(/^(marrakech|casablanca|rabat|agadir|tanger|maroc|morocco)( safi)?$/.test(v))return true;
+  if(/\b(par semaine|par mois|par an|dh|mad|eur|€)\b/.test(v)&&/\d/.test(v))return true;
+  return false;
+}
+function isLikelyCompanyName(value=''){
+  const line=cleanDetectedCompany(value);
+  if(!line||line.length<2||line.length>90||isCompanyNoise(line))return false;
+  if(/https?:|www\.|@/.test(line))return false;
+  if(/[.!?]$/.test(line)&&line.split(/\s+/).length>5)return false;
+  if(/^(missions?|responsabilit[eé]s?|qualifications?|comp[eé]tences?|profil|avantages?|description|r[eé]sum[eé]|localisation|lieu)\b/i.test(line))return false;
+  const words=line.split(/\s+/).filter(Boolean);
+  if(words.length>11)return false;
+  const companyMarker=/(h[oô]tel|riad|resort|palace|groupe|group|restaurant|lounge|spa|club|hospitality|collection|company|sarl|s\.a\.?|llc|marriott|accor|fairmont|mandarin|aman|selman|mamounia|mansour)/i.test(line);
+  const jobLike=/^(directeur|directrice|manager|responsable|chef|superviseur|coordinateur|g[eé]rant|assistant|commercial|receptionniste|serveur|cuisinier)\b/i.test(line);
+  if(jobLike&&!companyMarker)return false;
+  const titleWords=words.filter(w=>/^[A-ZÀ-ÖØ-Ý][A-Za-zÀ-ÖØ-öø-ÿ&'’-]*$/.test(w)).length;
+  const upperWords=words.filter(w=>w.length>1&&w===w.toUpperCase()&&/[A-ZÀ-ÖØ-Ý]/.test(w)).length;
+  return companyMarker||titleWords>=Math.max(1,Math.ceil(words.length*.45))||upperWords>=Math.max(1,Math.ceil(words.length*.5));
 }
 function guessCompany(text){
-  const lines=String(text||'').split(/\n+/).map(x=>x.trim()).filter(Boolean);
-  const explicit=lines.find(l=>/^(entreprise|soci[eé]t[eé]|employeur)\s*[:\-]/i.test(l));
-  if(explicit)return explicit.replace(/^[^:\-]+[:\-]\s*/,'').slice(0,90);
-  const jobIndex=lines.findIndex(l=>/direct|manager|responsable|chef|g[eé]rant|superviseur|coordinateur|operations|opérations/i.test(l)&&l.length<100);
-  const candidate=jobIndex>=0?lines[jobIndex+1]:'';
-  return candidate&&candidate.length<=90&&!/[.!?]$/.test(candidate)&&!/^nous\b/i.test(candidate)?candidate:'';
+  const raw=String(text||'');
+  const lines=raw.split(/\n+/).map((text,index)=>({text:text.trim(),index})).filter(x=>x.text);
+  for(let i=0;i<lines.length;i++){
+    const line=lines[i].text;
+    const explicit=line.match(/^(?:nom de l['’]entreprise|entreprise|soci[eé]t[eé]|employeur|company|organisation|organization)\s*[:\-–—]\s*(.+)$/i);
+    if(explicit&&isLikelyCompanyName(explicit[1]))return cleanDetectedCompany(explicit[1]);
+    if(/^(?:nom de l['’]entreprise|entreprise|soci[eé]t[eé]|employeur|company|organisation|organization)\s*:?$/i.test(line)){
+      const next=lines[i+1]?.text||'';if(isLikelyCompanyName(next))return cleanDetectedCompany(next);
+    }
+  }
+  const contextualPatterns=[
+    /(?:chez|au sein de|rejoignez|rejoindre)\s+([A-ZÀ-ÖØ-Ý][^\n,.;:]{2,80})/gi,
+    /(?:^|\n)\s*([A-ZÀ-ÖØ-Ý][^\n]{2,75}?)\s+(?:recrute|recherche)\b/gim,
+    /(?:à propos de|about)\s+([A-ZÀ-ÖØ-Ý][^\n,.;:]{2,80})/gi
+  ];
+  for(const re of contextualPatterns){
+    let match;while((match=re.exec(raw))){const candidate=cleanDetectedCompany(match[1]);if(isLikelyCompanyName(candidate))return candidate;}
+  }
+  const jobIndex=lines.findIndex(x=>/direct|manager|responsable|chef|g[eé]rant|superviseur|coordinateur|operations|opérations/i.test(x.text)&&x.text.length<100&&!isCompanyNoise(x.text));
+  const scored=[];
+  for(const item of lines){
+    const line=cleanDetectedCompany(item.text);if(!isLikelyCompanyName(line))continue;
+    let score=0;
+    if(/(h[oô]tel|riad|resort|palace|groupe|group|restaurant|lounge|spa|club|hospitality|collection|sarl|s\.a\.?|llc)/i.test(line))score+=18;
+    if(item.index<8)score+=7;
+    if(jobIndex>=0){const distance=Math.abs(item.index-jobIndex);score+=Math.max(0,11-distance*2);if(item.index===jobIndex+1)score+=5;if(item.index===jobIndex-1)score+=4;}
+    const words=line.split(/\s+/);const titleWords=words.filter(w=>/^[A-ZÀ-ÖØ-Ý]/.test(w)).length;score+=Math.min(6,titleWords);
+    if(words.length<=5)score+=3;
+    scored.push({line,score,index:item.index});
+  }
+  scored.sort((a,b)=>b.score-a.score||a.index-b.index);
+  return scored[0]?.score>=8?scored[0].line:'';
+}
+function normalizeAnalysisResult(result,offer){
+  const r=result&&typeof result==='object'?{...result}:{};
+  const proposed=cleanDetectedCompany(r.company||'');
+  const fallback=guessCompany(offer);
+  r.company=isLikelyCompanyName(proposed)?proposed:fallback;
+  if(!r.job||isCompanyNoise(r.job))r.job=guessJob(offer);
+  return r;
 }
 
 async function aiCall(action,payload){
@@ -115,9 +187,11 @@ async function runAnalysis(){
   if(!state.offer){alert('Collez une offre ou choisissez le mode rapide.');return}
   setStep(2);$('#analysisLoading').hidden=false;$('#analysisPanel').style.opacity=.35;
   let result=await aiCall('analyze',{offer:state.offer});if(!result)result=localAnalyze(state.offer);
+  result=normalizeAnalysisResult(result,state.offer);
   state.analysis=result;fillAnalysis(result);$('#analysisLoading').hidden=true;$('#analysisPanel').style.opacity=1;
 }
 function fillAnalysis(a){
+  a=normalizeAnalysisResult(a,state.offer||$('#offerText').value||'');
   $('#scoreValue').textContent=(a.score||72)+'%';
   $('.score-ring').style.background=`conic-gradient(var(--mocha) 0 ${a.score||72}%,#e6dad4 ${a.score||72}% 100%)`;
   $('#analysisSummary').textContent=a.summary||'';
@@ -244,7 +318,7 @@ function renderResult(){
   $('#cvValueEditor').value=(g.value||[]).join('\n');
   $('#letterEditor').value=g.letter;
   $('#messageEditor').value=g.message;
-  renderExperienceEditor();renderEditablePreviews();renderBrainExplanation();
+  previewFitToWidth=true;closeActionsMenu();renderExperienceEditor();renderEditablePreviews();renderBrainExplanation();
   $$('.tab').forEach(t=>t.classList.toggle('active',t.dataset.tab==='cv'));
   $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel==='cv'));
 }
@@ -300,10 +374,34 @@ function renderCvPreview(mode='normal',attempt=0){
       const status=$('#cvFitStatus');
       if(overflow){status.textContent='Contenu trop long';status.classList.add('error');status.classList.remove('ok')}
       else{status.textContent=mode==='normal'?'1 page A4 validée':`1 page A4 · ${mode==='compact'?'compression légère':'compression renforcée'}`;status.classList.add('ok');status.classList.remove('error')}
-      updateCvAudit();
-    }catch(e){$('#cvFitStatus').textContent='Aperçu chargé';updateCvAudit()}
+      updateCvAudit();updatePreviewScale();
+    }catch(e){$('#cvFitStatus').textContent='Aperçu chargé';updateCvAudit();updatePreviewScale()}
   };
 }
+function updatePreviewScale(){
+  const stage=$('#a4Stage'),canvas=$('#a4Canvas'),frame=$('#cvPreviewFrame');
+  if(!stage||!canvas||!frame)return;
+  requestAnimationFrame(()=>{
+    const style=getComputedStyle(stage);
+    const available=Math.max(1,stage.clientWidth-parseFloat(style.paddingLeft||0)-parseFloat(style.paddingRight||0));
+    const baseWidth=frame.offsetWidth||794;
+    const baseHeight=frame.offsetHeight||1123;
+    const scale=previewFitToWidth?Math.min(1,available/baseWidth):1;
+    frame.style.transform=`scale(${scale})`;
+    canvas.style.width=`${Math.round(baseWidth*scale)}px`;
+    canvas.style.height=`${Math.round(baseHeight*scale)}px`;
+    stage.classList.toggle('is-full-size',!previewFitToWidth);
+    const toggle=$('#previewZoomToggle');
+    if(toggle){toggle.textContent=previewFitToWidth?'Voir à 100 %':'Adapter à l’écran';toggle.setAttribute('aria-pressed',String(!previewFitToWidth));}
+  });
+}
+function setActionsMenu(open){
+  const dock=$('#resultActionsDock'),toggle=$('#mobileActionsToggle');if(!dock||!toggle)return;
+  dock.classList.toggle('open',Boolean(open));toggle.setAttribute('aria-expanded',String(Boolean(open)));
+  const icon=toggle.querySelector('b');if(icon)icon.textContent=open?'⌄':'⌃';
+}
+function closeActionsMenu(){setActionsMenu(false)}
+
 function cvCorpus(){
   if(!state.generated)return '';
   const g=state.generated;
@@ -347,6 +445,11 @@ function renderBrainExplanation(){
 function letterHtml(text){return `<h3>SIHAM FELCHOU</h3><p>${PROFILE.address.map(escapeHtml).join('<br>')}<br>${escapeHtml(PROFILE.phone)} · ${escapeHtml(PROFILE.email)}</p><p style="margin-top:22px"><b>Objet : Candidature au poste de ${escapeHtml(state.job)} — ${escapeHtml(state.company)}</b></p>${text.split('\n').map(x=>x?`<p>${escapeHtml(x)}</p>`:'<br>').join('')}`}
 
 ['cvTitleEditor','cvSummaryEditor','cvSkillsEditor','cvValueEditor','letterEditor','messageEditor'].forEach(id=>$('#'+id).addEventListener('input',scheduleCvUpdate));
+$('#previewZoomToggle').onclick=()=>{previewFitToWidth=!previewFitToWidth;updatePreviewScale()};
+$('#mobileActionsToggle').onclick=()=>setActionsMenu(!$('#resultActionsDock').classList.contains('open'));
+$('#resultActions').addEventListener('click',()=>{if(window.matchMedia('(max-width: 650px)').matches)closeActionsMenu()});
+$('#wizard').addEventListener('close',closeActionsMenu);
+window.addEventListener('resize',()=>{clearTimeout(previewResizeTimer);previewResizeTimer=setTimeout(updatePreviewScale,100)});
 $('#resetCvContent').onclick=()=>{
   const original=state.generated?._careerBrainOriginal;if(!original)return;
   const keep={letter:state.generated.letter,message:state.generated.message,_careerBrainOriginal:original};

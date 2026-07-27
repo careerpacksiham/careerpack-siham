@@ -1,20 +1,24 @@
-# CareerPack Siham V2.3 — CV contrôlé
+# CareerPack Siham V2.4 — Mobile utilisable
 
-PWA de préparation de candidatures centrée sur la génération d’un CV professionnel, modifiable et exportable en A4.
+Version corrective fondée sur CareerPack V2.3.
 
-## V2.3
-- modèle Executive Signature aligné sur le CV étalon validé ;
-- analyse d’offre avec fallback local ;
-- adaptation contrôlée sans invention de dates, fonctions ou entreprises ;
-- édition du titre, du résumé, des compétences, de la valeur ajoutée et des descriptions ;
-- réorganisation et masquage des expériences ;
-- contrôle qualité et couverture ATS ;
-- ajustement automatique à une page ;
-- sauvegarde locale et reprise des candidatures ;
-- PWA hors ligne.
+## Apports V2.4
 
-## Déploiement
-Remplacer entièrement les fichiers du dépôt par le contenu de cette archive, puis laisser GitHub Pages reconstruire le site. Après déploiement, fermer et rouvrir la PWA pour charger le cache V2.3.
+- aperçu A4 ajusté automatiquement à la largeur du téléphone ;
+- inspection facultative à 100 % ;
+- résultat en plein écran sur mobile ;
+- six commandes regroupées dans un tiroir compact ;
+- meilleure utilisation en portrait et en paysage ;
+- détection du nom d’entreprise renforcée dans le navigateur et dans CareerBrain ;
+- cache PWA renouvelé.
 
-## IA
-Le mode autonome fonctionne sans configuration. Pour Gemini, renseigner `AI_ENDPOINT` dans `config.js` et redéployer le Google Apps Script fourni dans `backend/google-apps-script`.
+## Installation GitHub Pages
+
+1. Conserver la valeur actuelle de `AI_ENDPOINT` dans l’ancien `config.js`.
+2. Remplacer entièrement les fichiers applicatifs du dépôt par ceux de cette archive, en conservant `.git`, `.github` et éventuellement `CNAME`.
+3. Reporter l’URL `/exec` dans le nouveau `config.js`.
+4. Si Gemini est utilisé, remplacer `Code.gs` dans Google Apps Script puis créer une nouvelle version du déploiement Web.
+5. Commit et push sur la branche `main`.
+6. Après le déploiement, fermer puis rouvrir la PWA afin de charger le cache V2.4.
+
+Aucune clé IA ne doit être enregistrée dans GitHub.

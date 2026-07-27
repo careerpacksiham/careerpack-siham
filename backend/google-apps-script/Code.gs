@@ -6,7 +6,7 @@
 const DEFAULT_MODEL = 'gemini-2.5-flash';
 
 function doGet() {
-  return json_({ ok: true, service: 'CareerPack AI Gateway', version: '2.3.0' });
+  return json_({ ok: true, service: 'CareerPack AI Gateway', version: '2.4.0' });
 }
 
 function doPost(e) {
@@ -57,7 +57,32 @@ function callGemini_(key, model, prompt) {
 }
 
 function buildAnalyzePrompt_(payload, profile) {
-  return `Tu es CareerBrain, analyste de recrutement senior. Analyse l'offre sans inventer de faits.\n\nOFFRE :\n${payload.offer || ''}\n\nPROFIL CANDIDAT :\n${JSON.stringify(profile)}\n\nRéponds uniquement en JSON strict avec cette structure :\n{\n  "score": entier de 0 à 100,\n  "sector": "hotel" | "restaurant" | "opening" | "executive",\n  "job": "intitulé du poste détecté",\n  "company": "entreprise détectée ou chaîne vide",\n  "keywords": [maximum 10 mots-clés ATS],\n  "strengths": [3 à 5 correspondances réelles],\n  "gaps": [0 à 4 écarts ou informations absentes],\n  "summary": "explication claire en 2 phrases"\n}\nLe score doit être prudent et explicable. Ne transforme jamais une absence en compétence.`;
+  return `Tu es CareerBrain, analyste de recrutement senior. Analyse l'offre sans inventer de faits.
+
+OFFRE :
+${payload.offer || ''}
+
+PROFIL CANDIDAT :
+${JSON.stringify(profile)}
+
+Réponds uniquement en JSON strict avec cette structure :
+{
+  "score": entier de 0 à 100,
+  "sector": "hotel" | "restaurant" | "opening" | "executive",
+  "job": "intitulé exact du poste détecté",
+  "company": "nom réel de l'employeur ou de la marque, sinon chaîne vide",
+  "companyEvidence": "court extrait exact de l'offre justifiant le nom, sinon chaîne vide",
+  "keywords": [maximum 10 mots-clés ATS],
+  "strengths": [3 à 5 correspondances réelles],
+  "gaps": [0 à 4 écarts ou informations absentes],
+  "summary": "explication claire en 2 phrases"
+}
+Règles strictes pour company :
+- retourne uniquement l'employeur ou la marque qui recrute ;
+- ne retourne jamais un type de contrat (temps plein, temps partiel, CDI, CDD, stage), un horaire, une localisation, une plateforme, une date, un niveau d'expérience ou un avantage ;
+- si le nom n'est pas suffisamment certain, retourne une chaîne vide ;
+- companyEvidence doit reprendre quelques mots réellement présents dans l'offre.
+Le score doit être prudent et explicable. Ne transforme jamais une absence en compétence.`;
 }
 
 function buildGeneratePrompt_(payload, profile) {
