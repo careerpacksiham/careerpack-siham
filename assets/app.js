@@ -1,4 +1,4 @@
-// CareerPack V2.5.2 — Édition finale figée : profil local, documents contrôlés et PWA stabilisée
+// CareerPack V2.6.0 — Édition Siham : logo officiel et parcours guidés contextuels
 const CFG = window.CAREERPACK_CONFIG || {};
 const BASE_PROFILE = window.SIHAM_PROFILE;
 const PROFILE_STORAGE_KEY = 'careerpack_siham_profile_v252';
@@ -7,6 +7,111 @@ let PROFILE = loadProfile();
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => [...document.querySelectorAll(s)];
 const STORAGE_KEY = 'careerpack_siham_applications_v21';
+
+
+const GUIDANCE_STORAGE_KEY = 'careerpack_siham_last_guidance_v1';
+const GUIDANCE_CASES = [
+  {
+    id:'exhausted', icon:'◌', title:'Je suis épuisée par mon travail',
+    desc:'Avancer sans ajouter une nouvelle charge mentale.',
+    steps:[
+      {title:'Réduisons immédiatement la charge',body:'Vous n’avez pas besoin de refaire toute votre carrière ce soir. CareerPack va vous demander une seule décision à la fois.',items:['Choisissez un seul poste cible.','N’essayez pas de perfectionner chaque phrase.','Si l’épuisement devient intense ou durable, priorisez votre santé et demandez du soutien.']},
+      {title:'Partons du minimum utile',body:'Une annonce suffit. Si vous n’en avez pas, le profil actuel permet déjà de préparer une base professionnelle.',items:['Avec une offre : collez-la telle quelle.','Sans offre : indiquez seulement le poste et l’entreprise.','CareerBrain triera les compétences et les expériences.']},
+      {title:'Ne vérifiez que les faits essentiels',body:'Votre énergie doit rester concentrée sur ce qui ne peut pas être décidé automatiquement.',items:['Confirmez le nom de l’entreprise et le poste.','Vérifiez les dates, fonctions et chiffres.','Laissez le modèle et la mise en page inchangés.']},
+      {title:'Un dossier, puis une vraie pause',body:'La candidature peut être enregistrée et reprise plus tard. Le but est de terminer une action utile, pas de tout faire.',items:['Exportez seulement le document nécessaire.','Enregistrez le dossier avant de fermer.','Revenez demain uniquement si une correction reste indispensable.']}
+    ],
+    wizardTips:{
+      1:'Collez une seule offre. Ne cherchez pas à la nettoyer : CareerPack s’en charge.',
+      2:'Vérifiez uniquement l’entreprise et le poste. Le reste peut attendre.',
+      3:'Gardez la recommandation proposée sauf erreur évidente.',
+      4:'Contrôlez les faits, exportez, enregistrez et arrêtez-vous là.'
+    },
+    actions:[
+      {flow:'offer',label:'J’ai une offre à analyser'},
+      {flow:'apply',label:'Je prépare sans annonce',secondary:true},
+      {flow:'library',label:'Je reprends un dossier',secondary:true}
+    ]
+  },
+  {
+    id:'change', icon:'↗', title:'Je suis en poste et je veux changer',
+    desc:'Préparer une transition discrète et ciblée.',
+    steps:[
+      {title:'Définissez une cible précise',body:'Une candidature efficace part d’un poste clair, pas d’un CV envoyé partout.',items:['Choisissez une fonction cible.','Fixez le secteur ou le type d’établissement.','Gardez une seule version principale par cible.']},
+      {title:'Comparez votre profil à une offre réelle',body:'L’analyse d’offre montre ce qu’il faut mettre en avant et ce qui doit rester secondaire.',items:['Collez l’annonce complète.','Vérifiez l’entreprise et le poste détectés.','Regardez les mots-clés réellement couverts.']},
+      {title:'Renforcez les preuves',body:'Pour changer en étant déjà en poste, le CV doit montrer des résultats et un niveau de responsabilité cohérent.',items:['Précisez les équipes encadrées.','Conservez les réalisations vérifiables.','Retirez les détails sans rapport avec la cible.']},
+      {title:'Envoyez de façon ciblée',body:'Un dossier discret et personnalisé vaut mieux qu’une diffusion massive.',items:['Adaptez le message au canal.','Sauvegardez le dossier par entreprise.','Gardez une trace des versions envoyées.']}
+    ],
+    wizardTips:{1:'Utilisez une offre réelle pour éviter un CV trop général.',2:'Confirmez le poste et l’entreprise avant de continuer.',3:'Choisissez le positionnement le plus proche de votre prochaine fonction.',4:'Vérifiez les preuves et personnalisez le message avant envoi.'},
+    actions:[
+      {flow:'offer',label:'Analyser une offre ciblée'},
+      {flow:'profile',label:'Vérifier mon profil',secondary:true}
+    ]
+  },
+  {
+    id:'urgent', icon:'!', title:'Je suis sans emploi et je dois agir vite',
+    desc:'Produire rapidement un dossier complet et réutilisable.',
+    steps:[
+      {title:'Commencez par l’opportunité la plus concrète',body:'La priorité est une candidature complète aujourd’hui, pas une refonte générale.',items:['Choisissez une offre encore active.','Utilisez le profil déjà enregistré.','Ne modifiez que les informations nécessaires.']},
+      {title:'Laissez CareerBrain préparer le pack',body:'L’analyse sélectionne le positionnement, les expériences et les mots-clés les plus utiles.',items:['Collez toute l’annonce.','Corrigez les champs mal détectés.','Acceptez le secteur recommandé si cohérent.']},
+      {title:'Finalisez les trois éléments',body:'Le CV, la lettre et le message forment un dossier complet.',items:['Contrôlez le CV A4.','Relisez la lettre personnalisée.','Adaptez le message au canal choisi.']},
+      {title:'Enregistrez pour réutiliser',body:'Le prochain dossier sera plus rapide si cette candidature reste disponible.',items:['Enregistrez avant l’export.','Réutilisez le dossier proche de la prochaine offre.','Changez seulement l’entreprise, le poste et les mots-clés.']}
+    ],
+    wizardTips:{1:'Collez l’offre active la plus prioritaire.',2:'Corrigez immédiatement l’entreprise ou le poste si nécessaire.',3:'Choisissez la recommandation la plus directement employable.',4:'Exportez CV, lettre et message, puis sauvegardez le dossier.'},
+    actions:[
+      {flow:'offer',label:'Créer le dossier maintenant'},
+      {flow:'library',label:'Réutiliser un dossier existant',secondary:true},
+      {flow:'apply',label:'Préparer sans annonce',secondary:true}
+    ]
+  },
+  {
+    id:'reconversion', icon:'⇄', title:'Je prépare une reconversion',
+    desc:'Transformer l’expérience passée en compétences transférables.',
+    steps:[
+      {title:'Nommer clairement la nouvelle cible',body:'La reconversion devient crédible lorsque la fonction visée est précise.',items:['Choisissez un métier cible.','Identifiez le secteur d’arrivée.','Évitez les titres trop vagues.']},
+      {title:'Repérer les compétences transférables',body:'CareerPack doit montrer ce que votre parcours permet déjà de faire dans le nouveau métier.',items:['Management et organisation.','Relation client et développement commercial.','Pilotage, négociation et conduite du changement.']},
+      {title:'Comparer avec une offre',body:'L’offre révèle les écarts réels et évite de promettre une compétence non démontrée.',items:['Analysez les mots-clés.','Conservez les lacunes visibles.','N’inventez ni diplôme ni expérience.']},
+      {title:'Expliquer la transition',body:'La lettre et le résumé doivent relier le passé professionnel au projet futur.',items:['Présentez une logique de continuité.','Montrez la motivation sans vous justifier excessivement.','Mettez en avant une valeur immédiatement utile.']}
+    ],
+    wizardTips:{1:'Collez une offre représentative du nouveau métier.',2:'Vérifiez que le titre cible est explicite.',3:'Choisissez le positionnement qui valorise les compétences transférables.',4:'Contrôlez que le CV n’invente aucune expérience dans le nouveau secteur.'},
+    actions:[
+      {flow:'profile',label:'Préparer mes compétences transférables'},
+      {flow:'offer',label:'Analyser une offre de reconversion'},
+      {flow:'apply',label:'Créer une base sans annonce',secondary:true}
+    ]
+  },
+  {
+    id:'return', icon:'↺', title:'Je reprends après une pause',
+    desc:'Revenir avec un récit professionnel simple et crédible.',
+    steps:[
+      {title:'Sécurisez d’abord la chronologie',body:'La reprise doit rester claire, factuelle et sans tentative de masquer une période.',items:['Vérifiez toutes les dates.','Conservez les fonctions réelles.','Ajoutez une activité récente seulement si elle est vérifiable.']},
+      {title:'Recentrer le CV sur les compétences actuelles',body:'L’objectif n’est pas de tout raconter, mais de montrer ce qui est encore immédiatement mobilisable.',items:['Priorisez les responsabilités récentes.','Conservez les compétences fortes.','Raccourcissez les expériences anciennes.']},
+      {title:'Préparer une explication neutre',body:'La lettre peut expliquer la reprise en une phrase, sans entrer dans des détails personnels inutiles.',items:['Restez positive et factuelle.','Insistez sur la disponibilité actuelle.','Revenez rapidement à la valeur apportée.']},
+      {title:'Choisir une première candidature réaliste',body:'Une offre cohérente avec le niveau d’expérience facilite la reprise.',items:['Vérifiez les exigences obligatoires.','Adaptez le titre au poste.','Conservez le dossier pour les candidatures suivantes.']}
+    ],
+    wizardTips:{1:'Utilisez une offre réaliste pour cette reprise.',2:'Vérifiez dates et disponibilité avant tout.',3:'Choisissez le dossier qui reflète le niveau actuel, pas seulement le passé.',4:'Relisez surtout le résumé et la lettre de reprise.'},
+    actions:[
+      {flow:'profile',label:'Vérifier mon profil et mes dates'},
+      {flow:'offer',label:'Analyser une offre de reprise'},
+      {flow:'apply',label:'Préparer un dossier de base',secondary:true}
+    ]
+  },
+  {
+    id:'executive', icon:'◆', title:'Je vise un poste de direction',
+    desc:'Construire une candidature de haut niveau, sobre et prouvée.',
+    steps:[
+      {title:'Positionnez le niveau de responsabilité',body:'Le titre et le résumé doivent refléter le périmètre réellement tenu.',items:['Direction générale, opérationnelle ou commerciale.','Taille des équipes et niveau d’autonomie.','Responsabilités budgétaires ou stratégiques vérifiables.']},
+      {title:'Privilégiez les preuves de pilotage',body:'Un CV de direction doit montrer la capacité à structurer, décider et obtenir des résultats.',items:['Transformation d’organisation.','Développement du chiffre d’affaires.','Management d’équipes et conduite du changement.']},
+      {title:'Choisissez le bon format',body:'Une page convient à un dossier très ciblé ; deux pages deviennent légitimes si le parcours de direction doit être documenté.',items:['Contrôlez la densité.','Gardez les expériences les plus fortes.','Évitez les répétitions entre résumé et parcours.']},
+      {title:'Contrôlez la cohérence exécutive',body:'Le CV, la lettre et le message doivent porter le même positionnement.',items:['Même titre cible.','Même niveau de langage.','Même promesse professionnelle, toujours vérifiable.']}
+    ],
+    wizardTips:{1:'Collez l’annonce complète, notamment les responsabilités et le périmètre.',2:'Vérifiez le niveau hiérarchique et l’entreprise.',3:'Le dossier Direction & Management est prioritaire sauf spécialisation sectorielle forte.',4:'Contrôlez les preuves de leadership, le format A4 et la cohérence de la lettre.'},
+    actions:[
+      {flow:'offer',label:'Analyser une offre de direction'},
+      {flow:'apply',label:'Préparer une candidature spontanée'},
+      {flow:'profile',label:'Renforcer mon profil exécutif',secondary:true}
+    ]
+  }
+];
 
 const packs = [
   {id:'hotel',icon:'🏨',title:'Hôtellerie de luxe',desc:'Palaces, resorts, hôtels 5 étoiles et riads premium.',cv:'documents/cv/cv-luxury-hospitality.pdf',letter:'documents/lettres/lettre-luxury-hospitality.pdf',keywords:['hôtel','hospitality','guest','palace','resort','hébergement','réception','service','luxe'],focus:'excellence de service, standards qualité, expérience client et management des équipes'},
@@ -21,6 +126,8 @@ let autosaveTimer = null;
 let previewFitToWidth = true;
 let previewResizeTimer = null;
 let pendingProfilePhoto = null;
+let activeGuidanceId = null;
+let guidanceStepIndex = 0;
 
 function freshState() {
   return {id:null, offer:'', analysis:null, company:'', job:'', recruiter:'', pack:null, generated:null, quick:false, createdAt:null, updatedAt:null, exportHistory:[]};
@@ -77,6 +184,7 @@ function setStep(n){
   $$('.wizard-step').forEach(s=>s.hidden=Number(s.dataset.step)!==n);
   $$('.progress-dot').forEach(d=>d.classList.toggle('active',Number(d.dataset.dot)<=n));
   $('#wizard').classList.toggle('result-mode',n===4);
+  updateGuidanceContext(n);
   if(n!==4)closeActionsMenu();
 }
 
@@ -84,14 +192,77 @@ function resetInputs(){
   ['offerText','company','job','recruiter'].forEach(id=>$('#'+id).value='');
 }
 
-function openWizard(flow='offer'){
+function openWizard(flow='offer',guidanceId=null){
+  activeGuidanceId=guidanceId;
   state=freshState();state.quick=flow==='apply';resetInputs();setSaveState('Non enregistrée');
   setStep(flow==='apply'?2:1);
   if(flow==='apply'){state.analysis=localAnalyze('');fillAnalysis(state.analysis)}
   $('#wizard').showModal();
 }
 
-$$('[data-flow]').forEach(b=>b.addEventListener('click',()=>b.dataset.flow==='library'?openLibrary():openWizard(b.dataset.flow)));
+$$('[data-flow]').forEach(b=>b.addEventListener('click',()=>{
+  activeGuidanceId=null;
+  b.dataset.flow==='library'?openLibrary():openWizard(b.dataset.flow);
+}));
+
+
+function getGuidanceCase(id=activeGuidanceId){return GUIDANCE_CASES.find(item=>item.id===id)||null}
+function renderGuidanceCases(){
+  const box=$('#guidanceCases');if(!box)return;
+  let last='';try{last=localStorage.getItem(GUIDANCE_STORAGE_KEY)||''}catch{}
+  box.innerHTML=GUIDANCE_CASES.map(item=>`<button type="button" class="guidance-case ${item.id===last?'last-used':''}" data-guidance-case="${item.id}"><span class="guidance-case-icon">${item.icon}</span><span><strong>${escapeHtml(item.title)}</strong><small>${escapeHtml(item.desc)}</small></span><b>→</b></button>`).join('');
+  $$('[data-guidance-case]').forEach(button=>button.onclick=()=>startGuidanceCase(button.dataset.guidanceCase));
+}
+function openGuidance(){
+  guidanceStepIndex=0;
+  $('#guidanceChoose').hidden=false;
+  $('#guidanceFlow').hidden=true;
+  renderGuidanceCases();
+  $('#guidanceDialog').showModal();
+}
+function startGuidanceCase(id){
+  const item=getGuidanceCase(id);if(!item)return;
+  activeGuidanceId=id;guidanceStepIndex=0;
+  try{localStorage.setItem(GUIDANCE_STORAGE_KEY,id)}catch{}
+  $('#guidanceChoose').hidden=true;
+  $('#guidanceFlow').hidden=false;
+  renderGuidanceStep();
+}
+function renderGuidanceStep(){
+  const item=getGuidanceCase();if(!item)return;
+  const step=item.steps[guidanceStepIndex];
+  const total=item.steps.length;
+  const final=guidanceStepIndex===total-1;
+  $('#guidanceProgressText').textContent=`Étape ${guidanceStepIndex+1} sur ${total}`;
+  $('#guidanceProgressBar').style.width=`${((guidanceStepIndex+1)/total)*100}%`;
+  $('#guidanceCaseTitle').textContent=item.title;
+  $('#guidanceStepIcon').textContent=item.icon;
+  $('#guidanceStepTitle').textContent=step.title;
+  $('#guidanceStepBody').textContent=step.body;
+  $('#guidanceChecklist').innerHTML=step.items.map(text=>`<li>${escapeHtml(text)}</li>`).join('');
+  $('#guidanceBack').hidden=guidanceStepIndex===0;
+  $('#guidanceNext').hidden=final;
+  $('#guidanceActions').hidden=!final;
+  if(final){
+    $('#guidanceActions').innerHTML=item.actions.map(action=>`<button type="button" class="guidance-action ${action.secondary?'secondary-action':''}" data-guidance-action="${action.flow}">${escapeHtml(action.label)}</button>`).join('');
+    $$('[data-guidance-action]').forEach(button=>button.onclick=()=>launchGuidedAction(button.dataset.guidanceAction));
+  }
+}
+function launchGuidedAction(flow){
+  const guidanceId=activeGuidanceId;
+  $('#guidanceDialog').close();
+  if(flow==='profile'){openProfileEditor();return}
+  if(flow==='library'){openLibrary();return}
+  openWizard(flow,guidanceId);
+}
+function updateGuidanceContext(step){
+  const box=$('#contextGuide');if(!box)return;
+  const item=getGuidanceCase();
+  if(!item){box.hidden=true;return}
+  box.hidden=false;
+  $('#contextGuideTitle').textContent=item.title;
+  $('#contextGuideText').textContent=item.wizardTips?.[step]||'Suivez une seule étape à la fois.';
+}
 
 function cleanWords(t){return (String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').match(/[a-z0-9&+-]{3,}/g)||[])}
 function localAnalyze(text){
@@ -680,6 +851,7 @@ function renderSavedApplications(){
   });
 }
 function loadApplication(id){
+  activeGuidanceId=null;
   const item=getApplications().find(x=>x.id===id);if(!item)return;
   state=item;state.pack=packs.find(p=>p.id===item.pack?.id)||item.pack||packs[3];state.generated=normalizeGenerated(state.generated||{});
   $('#offerText').value=state.offer||'';$('#company').value=state.company||'';$('#job').value=state.job||'';$('#recruiter').value=state.recruiter||'';
@@ -719,7 +891,7 @@ function saveProfileFromForm(){
   PROFILE=next;applyProfileToUi();$('#profileDialog').close();alert('Le profil de référence est enregistré sur cet appareil. Il sera utilisé pour les prochaines candidatures.');
 }
 function exportBackup(){
-  const payload={schema:BACKUP_SCHEMA,version:'2.5.2',exportedAt:new Date().toISOString(),profile:PROFILE,applications:getApplications()};
+  const payload={schema:BACKUP_SCHEMA,version:'2.6.0',exportedAt:new Date().toISOString(),profile:PROFILE,applications:getApplications()};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`CareerPack_Siham_Sauvegarde_${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 async function importBackupFile(file){
@@ -727,6 +899,13 @@ async function importBackupFile(file){
 }
 
 function escapeHtml(s=''){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+
+$('#guidanceBtn').onclick=openGuidance;
+$('#guidanceBack').onclick=()=>{if(guidanceStepIndex>0){guidanceStepIndex--;renderGuidanceStep()}};
+$('#guidanceNext').onclick=()=>{const item=getGuidanceCase();if(item&&guidanceStepIndex<item.steps.length-1){guidanceStepIndex++;renderGuidanceStep()}};
+$('#guidanceChooseAnother').onclick=()=>{activeGuidanceId=null;guidanceStepIndex=0;$('#guidanceFlow').hidden=true;$('#guidanceChoose').hidden=false;renderGuidanceCases()};
+$('#changeGuidance').onclick=()=>{$('#wizard').close();openGuidance()};
+
 $('#profileBtn').onclick=openProfileEditor;
 ['profilePhotoZoom','profilePhotoX','profilePhotoY'].forEach(id=>$('#'+id).addEventListener('input',renderProfilePhotoPreview));
 $('#profilePhotoFile').onchange=async e=>{const file=e.target.files?.[0];if(!file)return;try{pendingProfilePhoto=await resizePhotoFile(file);renderProfilePhotoPreview()}catch{alert('Cette image n’a pas pu être chargée.')}};

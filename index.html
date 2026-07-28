@@ -6,13 +6,15 @@
   <meta name="theme-color" content="#765446">
   <meta name="description" content="CareerPack Siham — assistant intelligent de candidature">
   <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" href="assets/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
   <link rel="stylesheet" href="assets/style.css">
-  <title>CareerPack Siham V2.5.5 — Horloge calée à droite</title>
+  <title>CareerPack Siham V2.6.0 — Parcours guidés</title>
 </head>
 <body>
   <div class="ambient ambient-one"></div><div class="ambient ambient-two"></div>
   <header class="topbar">
-    <div class="identity"><span class="brand-mark">C</span><div><strong>CareerPack</strong><span>Assistant intelligent de candidature</span></div></div>
+    <div class="identity"><img class="brand-logo" src="assets/logo-careerpack.png" alt="CareerPack"><div><strong>CareerPack</strong><span>Assistant intelligent de candidature</span></div></div>
     <div class="top-actions"><span id="aiBadge" class="ai-badge local">Mode autonome</span><button id="profileBtn" class="install-btn" type="button">Mon profil</button><button id="installBtn" class="install-btn" hidden>Installer</button><div class="clock-card top-clock" aria-label="Heure locale à Marrakech"><span class="city">MARRAKECH</span><strong id="clock">--:--:--</strong><span id="dateText">--</span></div></div>
   </header>
 
@@ -33,6 +35,11 @@
         <button class="action-card" data-flow="apply"><span class="action-icon">✦</span><span><strong>Préparer sans annonce</strong><small>Entreprise, poste et secteur suffisent</small></span><b>→</b></button>
         <button class="action-card" data-flow="library"><span class="action-icon">▣</span><span><strong>Consulter mes dossiers</strong><small>CV et lettres premium prêts à envoyer</small></span><b>→</b></button>
       </div>
+      <button type="button" class="guidance-launch" id="guidanceBtn">
+        <span class="guidance-launch-icon">?</span>
+        <span><strong>Je ne sais pas par où commencer</strong><small>CareerPack adapte le parcours à votre situation et vous guide une étape à la fois.</small></span>
+        <b>Me guider →</b>
+      </button>
     </section>
 
     <section class="trust-strip"><div><strong>CV</strong><span>modèle étalon validé</span></div><div><strong>IA</strong><span>avec fallback local</span></div><div><strong>A4</strong><span>export contrôlé</span></div></section>
@@ -40,6 +47,10 @@
 
   <dialog id="wizard"><form method="dialog" class="wizard-card">
     <button class="close" value="cancel" aria-label="Fermer">×</button>
+    <div id="contextGuide" class="context-guide" hidden>
+      <div><span>Parcours actif</span><strong id="contextGuideTitle"></strong><p id="contextGuideText"></p></div>
+      <button type="button" id="changeGuidance">Changer de situation</button>
+    </div>
     <div class="wizard-progress"><span class="progress-dot active" data-dot="1"></span><span class="progress-line"></span><span class="progress-dot" data-dot="2"></span><span class="progress-line"></span><span class="progress-dot" data-dot="3"></span><span class="progress-line"></span><span class="progress-dot" data-dot="4"></span></div>
 
     <section class="wizard-step" data-step="1">
@@ -124,6 +135,35 @@
           <button type="button" class="mobile-actions-toggle" id="mobileActionsToggle" aria-expanded="false" aria-controls="resultActions"><span>Actions du dossier</span><b aria-hidden="true">⌃</b></button>
           <div class="result-actions" id="resultActions"><button type="button" id="saveApplication">Enregistrer le dossier</button><button type="button" id="printCv">Enregistrer le CV en PDF</button><button type="button" id="printLetter">Enregistrer la lettre en PDF</button><button type="button" id="copyLetter">Copier la lettre</button><button type="button" id="shareText">Partager le message</button><button type="button" class="secondary" id="restart">Nouvelle candidature</button></div>
         </div>
+      </div>
+    </section>
+  </form></dialog>
+
+
+  <dialog id="guidanceDialog"><form method="dialog" class="wizard-card guidance-card">
+    <button class="close" value="cancel" aria-label="Fermer">×</button>
+    <div class="guidance-brand">
+      <img src="assets/logo-careerpack.png" alt="">
+      <div><p class="eyebrow">Aide contextuelle</p><h2>De quoi avez-vous besoin aujourd’hui ?</h2></div>
+    </div>
+    <section id="guidanceChoose">
+      <p class="step-intro important-copy">Choisissez la situation la plus proche de la vôtre. Le parcours, les conseils et l’action finale s’adapteront automatiquement.</p>
+      <div id="guidanceCases" class="guidance-cases"></div>
+    </section>
+    <section id="guidanceFlow" hidden>
+      <div class="guidance-progress-head"><span id="guidanceProgressText">Étape 1</span><button type="button" id="guidanceChooseAnother">Choisir un autre cas</button></div>
+      <div class="guidance-progress-track"><span id="guidanceProgressBar"></span></div>
+      <article class="guidance-step-card">
+        <span id="guidanceStepIcon" class="guidance-step-icon"></span>
+        <p class="eyebrow" id="guidanceCaseTitle"></p>
+        <h2 id="guidanceStepTitle"></h2>
+        <p id="guidanceStepBody" class="guidance-step-body"></p>
+        <ul id="guidanceChecklist" class="guidance-checklist"></ul>
+      </article>
+      <div id="guidanceActions" class="guidance-actions" hidden></div>
+      <div class="guidance-nav">
+        <button type="button" class="secondary" id="guidanceBack">Étape précédente</button>
+        <button type="button" class="primary" id="guidanceNext">Étape suivante</button>
       </div>
     </section>
   </form></dialog>

@@ -394,3 +394,149 @@
 #aiBadge{order:1}
 #profileBtn{order:2}
 #installBtn{order:3}
+
+/* CareerPack V2.6.0 — identité visuelle et parcours guidés contextuels */
+.brand-logo{
+  width:42px;
+  height:42px;
+  flex:0 0 42px;
+  object-fit:contain;
+  display:block;
+  filter:drop-shadow(0 7px 14px rgba(19,91,122,.12));
+}
+.guidance-launch{
+  width:100%;
+  margin-top:14px;
+  border:1px solid rgba(32,111,142,.18);
+  border-radius:18px;
+  padding:14px 16px;
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:13px;
+  align-items:center;
+  text-align:left;
+  color:var(--ink);
+  background:linear-gradient(135deg,rgba(245,251,253,.92),rgba(241,250,245,.92));
+  box-shadow:0 8px 24px rgba(31,89,110,.07);
+}
+.guidance-launch:hover{transform:translateY(-2px);box-shadow:0 14px 30px rgba(31,89,110,.12)}
+.guidance-launch-icon{
+  width:40px;height:40px;border-radius:13px;display:grid;place-items:center;
+  color:#fff;font-weight:900;font-size:1.1rem;
+  background:linear-gradient(145deg,#1b81ad,#2abf7c)
+}
+.guidance-launch>span:nth-child(2){display:grid;gap:3px}
+.guidance-launch strong{font-size:.94rem}
+.guidance-launch small{font-size:.76rem;line-height:1.35;color:#3d4a4d}
+.guidance-launch b{font-size:.78rem;color:#176d8f;white-space:nowrap}
+.guidance-card{width:min(94vw,820px)}
+.guidance-brand{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding-right:36px}
+.guidance-brand img{width:58px;height:58px;object-fit:contain;flex:0 0 58px}
+.guidance-brand h2{margin:0;color:#315e70;font-size:clamp(1.28rem,3vw,1.85rem)}
+.guidance-cases{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:11px;
+  margin-top:18px
+}
+.guidance-case{
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:15px;
+  background:#fff;
+  color:var(--ink);
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:12px;
+  align-items:center;
+  text-align:left;
+  transition:.16s ease
+}
+.guidance-case:hover{transform:translateY(-2px);border-color:#83bcae;box-shadow:0 10px 24px rgba(31,89,110,.10)}
+.guidance-case-icon{
+  width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(145deg,#e8f5f9,#eaf8f1);color:#1f7696;font-size:1.05rem;font-weight:900
+}
+.guidance-case span:nth-child(2){display:grid;gap:3px}
+.guidance-case strong{font-size:.88rem}
+.guidance-case small{font-size:.72rem;line-height:1.35;color:#444}
+.guidance-case b{color:#2aa575}
+.guidance-case.last-used::after{
+  content:"Dernier parcours";
+  grid-column:2/4;
+  font-size:.63rem;
+  color:#287b5a;
+  font-weight:800
+}
+.guidance-progress-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px}
+.guidance-progress-head span{font-size:.74rem;font-weight:850;color:#315e70}
+.guidance-progress-head button{border:0;background:transparent;color:var(--mocha-dark);font-size:.72rem;font-weight:800;padding:4px}
+.guidance-progress-track{height:6px;border-radius:999px;background:#e5ecec;overflow:hidden;margin-bottom:15px}
+.guidance-progress-track span{display:block;height:100%;width:25%;border-radius:inherit;background:linear-gradient(90deg,#1585ae,#2cc57d);transition:width .2s ease}
+.guidance-step-card{
+  position:relative;
+  border:1px solid rgba(32,111,142,.16);
+  border-radius:19px;
+  padding:19px;
+  background:linear-gradient(145deg,#fbfefe,#f5fbf8)
+}
+.guidance-step-icon{
+  position:absolute;right:17px;top:15px;width:42px;height:42px;border-radius:13px;
+  display:grid;place-items:center;background:#fff;color:#1f7a98;font-weight:900;
+  box-shadow:0 7px 18px rgba(31,89,110,.09)
+}
+.guidance-step-card h2{margin:0;padding-right:56px;color:#315e70}
+.guidance-step-body{margin:10px 0 0;line-height:1.55;font-size:.91rem;color:#26201e}
+.guidance-checklist{display:grid;gap:8px;padding:0;margin:15px 0 0;list-style:none}
+.guidance-checklist li{position:relative;padding-left:24px;font-size:.82rem;line-height:1.42;color:#342d2a}
+.guidance-checklist li::before{
+  content:"✓";position:absolute;left:0;top:0;width:17px;height:17px;border-radius:50%;
+  display:grid;place-items:center;background:#def4e6;color:#2d8b59;font-size:.68rem;font-weight:900
+}
+.guidance-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:14px}
+.guidance-action{
+  border:0;border-radius:14px;padding:12px 13px;text-align:left;
+  background:var(--mocha-dark);color:#fff;font-weight:850;line-height:1.3
+}
+.guidance-action.secondary-action{background:#edf4f4;color:#315e70;border:1px solid #d3e4e2}
+.guidance-nav{display:flex;justify-content:space-between;gap:10px;margin-top:16px}
+.context-guide{
+  margin:0 0 16px;
+  padding:11px 13px;
+  border:1px solid rgba(35,126,158,.18);
+  border-radius:15px;
+  background:linear-gradient(135deg,#edf8fb,#eff9f3);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px
+}
+.context-guide div{display:grid;gap:2px}
+.context-guide span{font-size:.61rem;letter-spacing:.12em;text-transform:uppercase;color:#287793;font-weight:900}
+.context-guide strong{font-size:.84rem;color:#315e70}
+.context-guide p{margin:1px 0 0;font-size:.75rem;line-height:1.4;color:#2d3435}
+.context-guide button{
+  border:0;border-radius:10px;padding:7px 9px;background:#fff;color:#315e70;
+  font-size:.68rem;font-weight:850;white-space:nowrap
+}
+@media(max-width:760px){
+  .brand-logo{width:34px;height:34px;flex-basis:34px}
+  .guidance-cases{grid-template-columns:1fr}
+  .guidance-launch{grid-template-columns:auto 1fr;padding:12px 13px}
+  .guidance-launch b{grid-column:2}
+  .guidance-actions{grid-template-columns:1fr}
+}
+@media(max-width:580px){
+  .identity .brand-logo{display:none}
+  .guidance-card{padding-top:22px}
+  .guidance-brand img{width:48px;height:48px;flex-basis:48px}
+  .guidance-step-card{padding:16px}
+  .context-guide{align-items:flex-start;flex-direction:column}
+  .context-guide button{align-self:flex-end}
+}
+
+
+@media(max-width:580px){
+  .identity .brand-logo{display:block!important;width:32px;height:32px;flex-basis:32px}
+  .identity>div{display:none!important}
+}

@@ -1,8 +1,8 @@
-# CareerPack Siham V2.5.5 — Édition finale figée
+# CareerPack Siham V2.6.0 — Logo officiel et parcours guidés
 
 PWA de préparation de candidatures personnalisée pour Siham Felchou.
 
-Cette version clôture le cycle fonctionnel de l’édition Siham. Elle regroupe l’analyse d’offre, CareerBrain, le CV contrôlé, la lettre, le message, le profil local, la bibliothèque, la sauvegarde et l’utilisation mobile.
+Cette version conserve toutes les fonctions de la V2.5.5 et ajoute une identité visuelle installée dans la PWA ainsi qu’une aide pas à pas adaptée à la situation réelle de l’utilisatrice.
 
 ## Fonctions principales
 
@@ -12,46 +12,45 @@ Cette version clôture le cycle fonctionnel de l’édition Siham. Elle regroupe
 - génération d’un CV modifiable fondé sur le profil validé ;
 - contrôle qualité et couverture ATS ;
 - CV automatique, une page ou deux pages ;
-- descriptions d’expériences affichées en phrases et puces lisibles ;
-- lettre modifiable, contrôlée et exportable en A4 ;
+- lettre modifiable et exportable ;
 - message adapté à Email, LinkedIn ou WhatsApp ;
 - profil professionnel et cadrage photo modifiables localement ;
 - candidatures enregistrées et rouvertes ;
-- historique des exports ;
 - sauvegarde et restauration JSON ;
 - PWA hors ligne, responsive portrait et paysage.
 
-## Installation sur GitHub Pages
+## Nouveautés V2.6.0
 
-1. Sauvegarder la valeur actuelle de `AI_ENDPOINT` dans l’ancien `config.js`.
-2. Décompresser l’archive.
-3. Remplacer les fichiers applicatifs du dépôt par le contenu décompressé, en conservant `.git`, `.github` et éventuellement `CNAME`.
-4. Reporter l’URL Google Apps Script `/exec` dans le nouveau `config.js`.
-5. Si Gemini est utilisé, remplacer `backend/google-apps-script/Code.gs` dans le projet Google Apps Script, puis créer une nouvelle version du déploiement Web.
-6. Commit et push sur la branche `main`.
-7. Attendre la fin du déploiement GitHub Pages.
-8. Fermer complètement la PWA puis la rouvrir pour charger le cache V2.5.5.
+- logo bouclier CareerPack installé dans le bandeau ;
+- favicon et icônes PWA installables ;
+- parcours guidé **Je ne sais pas par où commencer** ;
+- six cas contextuels ;
+- quatre étapes par cas ;
+- conseils adaptés dans le générateur jusqu’à l’export.
 
-Aucune clé IA ne doit être enregistrée dans GitHub.
+## Cas guidés
 
-## Protection des données
+1. Je suis épuisée par mon travail.
+2. Je suis en poste et je veux changer.
+3. Je suis sans emploi et je dois agir vite.
+4. Je prépare une reconversion.
+5. Je reprends après une pause.
+6. Je vise un poste de direction.
 
-Les données sont conservées dans le navigateur de l’appareil. Avant d’effacer les données du site ou de désinstaller la PWA, ouvrir la bibliothèque et utiliser **Exporter une sauvegarde**.
+## Installation GitHub Pages
 
-Une mise à jour normale des fichiers GitHub Pages et du cache PWA ne supprime pas le stockage local.
+Voir `docs/INSTALLATION-V2.6.0.md`.
 
-## Documentation
+Résumé :
 
-- `CHANGELOG-V2.5.4.md` : correctif final de positionnement de l’horloge ;
-- `TESTS-V2.5.4.md` : validations du bandeau et des tailles d’écran ;
-- `CHANGELOG-V2.5.2.md` et `TESTS-V2.5.2.md` : consolidation fonctionnelle précédente ;
-- `EDITION-FIGEE.md` : règles de maintenance après clôture ;
-- `docs/INSTALLATION-V2.5.4.md` : procédure de déploiement détaillée.
+1. conserver l’ancien `AI_ENDPOINT` ;
+2. remplacer les fichiers du dépôt ;
+3. reporter l’endpoint dans le nouveau `config.js` ;
+4. commit et push ;
+5. fermer puis rouvrir la PWA après le déploiement.
 
+Le Google Apps Script ne change pas dans cette version.
 
-## Correctif V2.5.4
+## Données locales
 
-L’horloge est intégrée au bandeau supérieur, juste à gauche de « Mon profil ». Le bloc de bienvenue est libéré de toute hauteur ou colonne réservée à l’heure.
-
-## V2.5.4 — Correctif photo
-La photo d'accueil conserve désormais strictement son ratio carré sur tous les formats d'écran. Aucun étirement horizontal n'est possible.
+Avant d’effacer les données du site ou de désinstaller la PWA, ouvrir la bibliothèque et utiliser **Exporter une sauvegarde**.

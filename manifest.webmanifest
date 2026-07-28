@@ -1,11 +1,24 @@
 {
-  "name": "CareerPack Siham V2.5.5 — Horloge calée à droite",
-  "short_name": "CareerPack V2.5.5",
-  "description": "Assistant intelligent de candidature de Siham Felchou — édition finale figée, correctif horloge et ratio photo",
+  "name": "CareerPack Siham V2.6.0 — Parcours guidés",
+  "short_name": "CareerPack",
+  "description": "Assistant intelligent de candidature avec parcours pas à pas adaptés à la situation de Siham.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "background_color": "#fbf7f2",
   "theme_color": "#765446",
-  "icons": []
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
 }
