@@ -1,26 +1,15 @@
-# CareerPack Siham — Règle de gel
+# CareerPack Siham — Édition finale figée
 
-La version V2.6.0 remplace la V2.5.5 comme édition finale de référence.
+## Version de référence
+`V2.6.1`
 
-Elle intègre deux demandes finales validées :
+## Statut
+Stable, utilisable et clôturée après stabilisation des fenêtres secondaires et du responsive mobile.
 
-- identité visuelle CareerPack installée ;
-- accompagnement contextuel pas à pas selon la situation de l’utilisatrice.
-
-## Autorisé après gel
-
-- correction d’un bug reproductible ;
-- correction d’une régression ;
-- ajustement indispensable issu du test terrain ;
-- mise à jour de sécurité ou de compatibilité navigateur ;
-- correction d’une donnée du profil de Siham.
+## Maintenance autorisée
+- correction de sécurité ;
+- correction de perte de données ;
+- correction d’un blocage empêchant une candidature ou un export.
 
 ## Hors de cette branche
-
-- multi-utilisateur ;
-- synchronisation distante ;
-- administration complète ;
-- produit générique indépendant de Siham ;
-- refonte fonctionnelle majeure.
-
-Ces évolutions appartiendront à `CareerPack Core`.
+Toute nouvelle fonction, généralisation multi-utilisateur, nouvelle identité, synchronisation distante ou orchestration IA doit être réalisée dans CareerPack autonome.

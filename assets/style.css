@@ -540,3 +540,94 @@
   .identity .brand-logo{display:block!important;width:32px;height:32px;flex-basis:32px}
   .identity>div{display:none!important}
 }
+
+
+/* CareerPack V2.6.1 — stabilisation finale des fenêtres secondaires */
+html.dialog-open,body.dialog-open{
+  overflow:hidden!important;
+  overscroll-behavior:none;
+}
+body.dialog-open{width:100%}
+dialog{
+  max-width:calc(100vw - 12px);
+  max-height:calc(100dvh - 12px)!important;
+  overflow:hidden!important;
+}
+dialog[open]{
+  display:block;
+}
+dialog>.wizard-card{
+  width:100%;
+  max-height:calc(100dvh - 12px);
+  overflow-x:hidden!important;
+  overflow-y:auto!important;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-gutter:stable;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(118,84,70,.48) transparent;
+}
+dialog>.wizard-card::-webkit-scrollbar{width:8px}
+dialog>.wizard-card::-webkit-scrollbar-thumb{background:rgba(118,84,70,.42);border-radius:999px}
+dialog>.wizard-card>.close{
+  position:sticky!important;
+  top:7px!important;
+  right:auto!important;
+  z-index:80;
+  float:right;
+  display:grid;
+  place-items:center;
+  margin:-7px -4px -34px 0;
+  border-radius:999px;
+  background:rgba(255,253,250,.88)!important;
+  border:1px solid rgba(118,84,70,.16)!important;
+  box-shadow:0 6px 18px rgba(57,38,31,.11);
+  backdrop-filter:blur(9px);
+}
+#wizard.result-mode .wizard-card{overflow-y:auto!important}
+#libraryDialog{width:min(calc(100vw - 12px),760px)}
+#profileDialog{width:min(calc(100vw - 12px),1040px)}
+#guidanceDialog{width:min(calc(100vw - 12px),840px)}
+#libraryDialog .library-card,#profileDialog .profile-card,#guidanceDialog .guidance-card{
+  padding-bottom:max(24px,env(safe-area-inset-bottom));
+}
+
+@media(orientation:landscape) and (max-height:520px) and (max-width:900px){
+  dialog{
+    max-width:calc(100vw - 8px);
+    max-height:calc(100dvh - 8px)!important;
+    border-radius:18px;
+  }
+  dialog>.wizard-card{
+    max-height:calc(100dvh - 8px)!important;
+    padding:14px 18px 20px!important;
+    border-radius:18px;
+  }
+  dialog>.wizard-card>.close{
+    top:4px!important;
+    width:34px;
+    height:34px;
+    margin:-4px -3px -30px 0;
+    font-size:1.35rem;
+  }
+  #libraryDialog{width:min(calc(100vw - 8px),760px)}
+  #libraryDialog .library-tools{margin:8px 0}
+  #libraryDialog .saved-applications h3,
+  #libraryDialog .library-subtitle{margin-top:10px;margin-bottom:7px}
+  #libraryDialog .saved-item,
+  #libraryDialog .library-item{padding:9px 11px}
+  #libraryDialog .library-list{margin-top:8px;padding-bottom:4px}
+  #guidanceDialog .guidance-brand{margin-bottom:10px}
+  #profileDialog .profile-edit-grid{margin-top:10px}
+}
+
+@media(max-width:580px){
+  dialog{max-width:calc(100vw - 8px)}
+  dialog>.wizard-card{
+    max-height:calc(100dvh - 8px)!important;
+    border-radius:20px;
+    padding:18px 15px 22px;
+  }
+  dialog>.wizard-card>.close{right:auto!important;margin-right:-1px}
+  #libraryDialog,#profileDialog,#guidanceDialog,#wizard{width:calc(100vw - 8px)!important}
+}

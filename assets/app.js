@@ -891,7 +891,7 @@ function saveProfileFromForm(){
   PROFILE=next;applyProfileToUi();$('#profileDialog').close();alert('Le profil de référence est enregistré sur cet appareil. Il sera utilisé pour les prochaines candidatures.');
 }
 function exportBackup(){
-  const payload={schema:BACKUP_SCHEMA,version:'2.6.0',exportedAt:new Date().toISOString(),profile:PROFILE,applications:getApplications()};
+  const payload={schema:BACKUP_SCHEMA,version:'2.6.1',exportedAt:new Date().toISOString(),profile:PROFILE,applications:getApplications()};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`CareerPack_Siham_Sauvegarde_${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 async function importBackupFile(file){
@@ -917,3 +917,40 @@ $('#company').addEventListener('input',()=>{const note=$('#companyDetectionNote'
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;$('#installBtn').hidden=false});
 $('#installBtn').onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prompt();await deferredPrompt.userChoice;deferredPrompt=null;$('#installBtn').hidden=true};
 if('serviceWorker'in navigator)navigator.serviceWorker.register('service-worker.js').catch(console.warn);
+
+
+// CareerPack V2.6.1 — verrouillage du fond et synchronisation du scroll des dialogues.
+(function initDialogScrollManagement(){
+  const dialogs=[...document.querySelectorAll('dialog')];
+  let locked=false;
+  let scrollY=0;
+  function sync(){
+    const hasOpen=dialogs.some(dialog=>dialog.open);
+    if(hasOpen&&!locked){
+      scrollY=window.scrollY||document.documentElement.scrollTop||0;
+      document.documentElement.classList.add('dialog-open');
+      document.body.classList.add('dialog-open');
+      document.body.style.position='fixed';
+      document.body.style.top=`-${scrollY}px`;
+      document.body.style.left='0';
+      document.body.style.right='0';
+      locked=true;
+    }else if(!hasOpen&&locked){
+      document.documentElement.classList.remove('dialog-open');
+      document.body.classList.remove('dialog-open');
+      document.body.style.position='';
+      document.body.style.top='';
+      document.body.style.left='';
+      document.body.style.right='';
+      window.scrollTo(0,scrollY);
+      locked=false;
+    }
+  }
+  const observer=new MutationObserver(sync);
+  dialogs.forEach(dialog=>{
+    observer.observe(dialog,{attributes:true,attributeFilter:['open']});
+    dialog.addEventListener('close',sync);
+    dialog.addEventListener('cancel',()=>requestAnimationFrame(sync));
+  });
+  sync();
+})();
