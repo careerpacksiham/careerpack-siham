@@ -1,15 +1,16 @@
-# CareerPack Siham — Édition finale figée
+# CareerPack Siham — Édition finale connectée et figée
 
 ## Version de référence
-`V2.6.1`
+`V2.6.2`
 
 ## Statut
-Stable, utilisable et clôturée après stabilisation des fenêtres secondaires et du responsive mobile.
+Stable côté interface et reliée à AI Gateway Central V0.3.2, avec secours local silencieux.
 
 ## Maintenance autorisée
 - correction de sécurité ;
 - correction de perte de données ;
-- correction d’un blocage empêchant une candidature ou un export.
+- correction d’un blocage empêchant une candidature ou un export ;
+- adaptation strictement nécessaire à la compatibilité Gateway.
 
 ## Hors de cette branche
-Toute nouvelle fonction, généralisation multi-utilisateur, nouvelle identité, synchronisation distante ou orchestration IA doit être réalisée dans CareerPack autonome.
+Toute fonction générique, multi-utilisateur, nouvelle identité, synchronisation distante ou évolution commerciale appartient à CareerPack Autonome.

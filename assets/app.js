@@ -1,4 +1,4 @@
-// CareerPack V2.6.0 — Édition Siham : logo officiel et parcours guidés contextuels
+// CareerPack V2.6.2 — Édition Siham finale connectée à AI Gateway Central
 const CFG = window.CAREERPACK_CONFIG || {};
 const BASE_PROFILE = window.SIHAM_PROFILE;
 const PROFILE_STORAGE_KEY = 'careerpack_siham_profile_v252';
@@ -128,6 +128,9 @@ let previewResizeTimer = null;
 let pendingProfilePhoto = null;
 let activeGuidanceId = null;
 let guidanceStepIndex = 0;
+let lastAiMeta = null;
+let lastAiError = null;
+let aiBadgeTimer = null;
 
 function freshState() {
   return {id:null, offer:'', analysis:null, company:'', job:'', recruiter:'', pack:null, generated:null, quick:false, createdAt:null, updatedAt:null, exportHistory:[]};
@@ -174,9 +177,21 @@ function applyProfileToUi(){
 applyProfileToUi();setInterval(updateClock,1000);
 
 function setAiBadge(){
-  const on=Boolean(CFG.AI_ENDPOINT);
-  $('#aiBadge').textContent=on?'IA connectée':'Mode autonome';
-  $('#aiBadge').className='ai-badge '+(on?'online':'local');
+  const badge=$('#aiBadge');if(!badge)return;
+  const configured=Boolean(CFG.AI_ENDPOINT);
+  badge.textContent=configured?'IA centralisée':'Mode autonome';
+  badge.className='ai-badge '+(configured?'online':'local');
+  badge.title=configured?'AI Gateway Central configurée. Le secours local reste disponible.':'Fonctionnement local sans passerelle distante.';
+}
+function showAiSuccess(meta={}){
+  lastAiMeta=meta&&typeof meta==='object'?meta:null;lastAiError=null;
+  const badge=$('#aiBadge');if(!badge)return;
+  const provider=String(meta?.provider||'Gateway').trim();
+  badge.textContent=`IA · ${provider}`;
+  badge.className='ai-badge online';
+  const details=[meta?.account,meta?.model,meta?.latency_ms?`${meta.latency_ms} ms`:null].filter(Boolean).join(' · ');
+  badge.title=details||'Réponse reçue depuis AI Gateway Central.';
+  clearTimeout(aiBadgeTimer);aiBadgeTimer=setTimeout(setAiBadge,6500);
 }
 setAiBadge();
 
@@ -385,15 +400,38 @@ async function aiCall(action,payload){
   if(!CFG.AI_ENDPOINT)return null;
   const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),CFG.AI_TIMEOUT_MS||35000);
   try{
-    const r=await fetch(CFG.AI_ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action,payload,profile:profileForAi()}),signal:ctrl.signal});
-    if(!r.ok)throw new Error('AI HTTP '+r.status);
-    const data=await r.json();if(!data.ok)throw new Error(data.error||'AI error');return data.result;
-  }catch(e){console.warn('Fallback local:',e);showFallbackNotice();return null}finally{clearTimeout(timer)}
+    const r=await fetch(CFG.AI_ENDPOINT,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8','Accept':'application/json'},
+      body:JSON.stringify({action,payload,profile:profileForAi()}),
+      signal:ctrl.signal
+    });
+    let data=null;
+    try{data=await r.json()}catch{throw new Error(`Réponse Gateway illisible (HTTP ${r.status})`)}
+    if(!r.ok||!data?.ok)throw new Error(data?.error||`AI HTTP ${r.status}`);
+    showAiSuccess(data.meta||{});
+    if(data.result&&typeof data.result==='object'){
+      return {...data.result,source:'gateway',_ai:{requestId:data.request_id||'',...(data.meta||{})}};
+    }
+    return data.result;
+  }catch(e){
+    lastAiError={at:new Date().toISOString(),action,message:e?.name==='AbortError'?'Délai Gateway dépassé':String(e?.message||e)};
+    console.warn('Fallback local:',lastAiError.message);showFallbackNotice();return null;
+  }finally{clearTimeout(timer)}
 }
 function showFallbackNotice(){
-  $('#aiBadge').textContent='Secours autonome';$('#aiBadge').className='ai-badge local';
-  setTimeout(setAiBadge,5000);
+  const badge=$('#aiBadge');if(!badge)return;
+  badge.textContent='Secours autonome';badge.className='ai-badge local';
+  badge.title='La passerelle n’a pas répondu : CareerPack a continué localement, sans bloquer la candidature.';
+  clearTimeout(aiBadgeTimer);aiBadgeTimer=setTimeout(setAiBadge,6500);
 }
+window.CAREERPACK_AI_DIAGNOSTICS=()=>({
+  version:CFG.APP_VERSION||'',
+  endpoint:CFG.AI_ENDPOINT||'',
+  gatewayMinimum:CFG.AI_GATEWAY_MIN_VERSION||'',
+  lastSuccess:lastAiMeta,
+  lastError:lastAiError
+});
 
 async function runAnalysis(){
   state.offer=$('#offerText').value.trim();
@@ -891,7 +929,7 @@ function saveProfileFromForm(){
   PROFILE=next;applyProfileToUi();$('#profileDialog').close();alert('Le profil de référence est enregistré sur cet appareil. Il sera utilisé pour les prochaines candidatures.');
 }
 function exportBackup(){
-  const payload={schema:BACKUP_SCHEMA,version:'2.6.1',exportedAt:new Date().toISOString(),profile:PROFILE,applications:getApplications()};
+  const payload={schema:BACKUP_SCHEMA,version:'2.6.2',exportedAt:new Date().toISOString(),profile:PROFILE,applications:getApplications()};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`CareerPack_Siham_Sauvegarde_${new Date().toISOString().slice(0,10)}.json`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 async function importBackupFile(file){
@@ -919,7 +957,7 @@ $('#installBtn').onclick=async()=>{if(!deferredPrompt)return;deferredPrompt.prom
 if('serviceWorker'in navigator)navigator.serviceWorker.register('service-worker.js').catch(console.warn);
 
 
-// CareerPack V2.6.1 — verrouillage du fond et synchronisation du scroll des dialogues.
+// CareerPack V2.6.2 — verrouillage du fond, scroll des dialogues et connexion Gateway finale.
 (function initDialogScrollManagement(){
   const dialogs=[...document.querySelectorAll('dialog')];
   let locked=false;

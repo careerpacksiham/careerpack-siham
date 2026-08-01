@@ -1,21 +1,18 @@
-# CareerPack Siham V2.6.1 — Édition finale figée
+# CareerPack Siham V2.6.2 — Édition finale connectée
 
-PWA de préparation de candidatures personnalisée pour Siham : analyse d’offre, adaptation contrôlée du CV, lettre, message, profil local, bibliothèque, sauvegardes et parcours guidés.
+PWA personnelle de préparation de candidatures pour Siham : analyse d’offre, CareerBrain, adaptation contrôlée du CV, lettre, message, profil local, bibliothèque, sauvegardes et parcours guidés.
 
 ## État final
+- interface et parcours Siham figés ;
 - moteur CV contrôlé et export A4 ;
-- contenu professionnel modifiable sans invention de faits ;
-- lettre et message éditables ;
 - profil local comme source de vérité ;
-- sauvegarde et reprise des dossiers ;
-- fonctionnement PWA et hors ligne ;
-- logo officiel et aide contextuelle ;
-- responsive mobile portrait et paysage ;
-- fenêtres secondaires entièrement défilables ;
-- page arrière verrouillée pendant l’ouverture d’une fenêtre.
+- AI Gateway Central V0.3.2 pour `analyze` et `generate` ;
+- fallback local silencieux en cas de panne, quota ou délai ;
+- aucune clé fournisseur dans la PWA ;
+- PWA hors ligne, responsive et installable.
 
 ## Déploiement
-Voir `docs/INSTALLATION-V2.6.1.md`.
+Voir `docs/INSTALLATION-V2.6.2.md`.
 
 ## Gel officiel
-Cette version clôt l’édition Siham. Les futures fonctions doivent être développées dans une nouvelle branche autonome issue de ce socle validé.
+Voir `FINALISATION-SIHAM.md`. Toute généralisation doit désormais être développée dans la branche **CareerPack Autonome** issue de ce socle.
