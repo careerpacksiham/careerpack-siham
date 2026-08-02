@@ -631,3 +631,20 @@ dialog>.wizard-card>.close{
   dialog>.wizard-card>.close{right:auto!important;margin-right:-1px}
   #libraryDialog,#profileDialog,#guidanceDialog,#wizard{width:calc(100vw - 8px)!important}
 }
+
+
+/* Signature finale de l’application — 01/08/2026 */
+.app-credits{
+  margin:22px auto 6px;
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  max-width:960px;
+  color:rgba(84,62,54,.72);
+  font-size:.76rem;
+  font-weight:650;
+  letter-spacing:.025em;
+  line-height:1.45;
+  text-align:center;
+}
+@media(max-width:680px){
+  .app-credits{margin-top:16px;padding-inline:10px;font-size:.69rem}
+}

@@ -16,3 +16,7 @@ Voir `docs/INSTALLATION-V2.6.2.md`.
 
 ## Gel officiel
 Voir `FINALISATION-SIHAM.md`. Toute généralisation doit désormais être développée dans la branche **CareerPack Autonome** issue de ce socle.
+
+
+## Création
+Création WebStorming - B. Wynants - Career Pack V.2.6.2 - 01/08/2026
