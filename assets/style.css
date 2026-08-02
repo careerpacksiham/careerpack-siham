@@ -633,18 +633,36 @@ dialog>.wizard-card>.close{
 }
 
 
-/* Signature finale de l’application — 01/08/2026 */
+/* Signature finale de l’application — intégration discrète */
 .app-credits{
-  margin:22px auto 6px;
-  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  margin:24px auto 0;
+  padding:14px 16px calc(7px + env(safe-area-inset-bottom));
   max-width:960px;
-  color:rgba(84,62,54,.72);
-  font-size:.76rem;
-  font-weight:650;
-  letter-spacing:.025em;
-  line-height:1.45;
+  border-top:1px solid rgba(101,92,88,.12);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+  color:rgba(92,86,83,.52);
+  font-size:.64rem;
+  font-weight:500;
+  letter-spacing:.028em;
+  line-height:1.35;
   text-align:center;
 }
+.app-credits-author{
+  color:rgba(92,86,83,.58);
+}
+.app-credits-release{
+  color:rgba(92,86,83,.43);
+  font-size:.59rem;
+  letter-spacing:.035em;
+}
 @media(max-width:680px){
-  .app-credits{margin-top:16px;padding-inline:10px;font-size:.69rem}
+  .app-credits{
+    margin-top:18px;
+    padding:12px 10px calc(6px + env(safe-area-inset-bottom));
+    font-size:.61rem;
+  }
+  .app-credits-release{font-size:.56rem}
 }

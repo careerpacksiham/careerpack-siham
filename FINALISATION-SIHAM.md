@@ -3,9 +3,6 @@
 ## Référence finale
 `CareerPack Siham V2.6.2 — Édition finale connectée`
 
-## Signature de création
-`Création WebStorming - B. Wynants - Career Pack V.2.6.2 - 01/08/2026`
-
 ## Périmètre figé
 - identité, profil et photo de Siham ;
 - CareerBrain et parcours guidés ;

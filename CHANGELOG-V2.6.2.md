@@ -18,7 +18,9 @@
 - cache final renouvelé : `careerpack-siham-v2-6-2-final-connected` ;
 - version des sauvegardes portée à `2.6.2` sans rupture du schéma existant.
 
-## Signature de clôture — 01/08/2026
-- ajout visible dans l’application : `Création WebStorming - B. Wynants - Career Pack V.2.6.2 - 01/08/2026` ;
-- ajout des métadonnées auteur et copyright ;
-- renouvellement du cache PWA afin de publier la signature sans modifier la version fonctionnelle V2.6.2.
+## Finition de la signature — 02/08/2026
+- signature de création séparée sur deux lignes ;
+- typographie réduite et poids visuel allégé ;
+- teinte gris clair cohérente avec l’interface ;
+- ajout d’un séparateur discret au-dessus des crédits ;
+- cache PWA renouvelé sans changement de version fonctionnelle.

@@ -22,3 +22,10 @@ Le navigateur Chromium du conteneur bloque administrativement les navigations lo
 
 ## Critère de gel
 La branche Siham est clôturée lorsque les actions `analyze` et `generate` réussissent depuis GitHub Pages et qu’un fallback réel a été observé sans perte de dossier.
+
+## Contrôle visuel de finition — 02/08/2026
+- crédits affichés sur deux lignes distinctes ;
+- police réduite et teinte gris clair ;
+- séparation visuelle avec le bandeau de confiance ;
+- rendu contrôlé en largeur bureau et mobile ;
+- nouveau cache PWA détectable après redéploiement.
